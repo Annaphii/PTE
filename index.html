@@ -1,0 +1,944 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>WFD Journey – Luyện PTE Listening</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Young+Serif&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F3F7FC; --surface:#FFFFFF; --sky:#E3EDF9; --line:#D3DEEC;
+  --ink:#0F2350; --muted:#56668A; --navy:#012169; --red:#C8102E;
+  --gold:#E3A300; --fern:#1D7A4B; --fern-bg:#E4F4EB; --red-bg:#FBE6E9; --gold-bg:#FFF4D6;
+  --serif:"Young Serif",Georgia,"Times New Roman",serif;
+  --sans:"Atkinson Hyperlegible",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0E1628; --surface:#16213A; --sky:#1C2B4A; --line:#2A3A5E;
+    --ink:#E8EEFA; --muted:#9FB0D0; --navy:#8FB0FF; --red:#FF6B7F;
+    --gold:#F5C542; --fern:#5BD08F; --fern-bg:#15372A; --red-bg:#3A1A24; --gold-bg:#3A3015;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0E1628; --surface:#16213A; --sky:#1C2B4A; --line:#2A3A5E;
+  --ink:#E8EEFA; --muted:#9FB0D0; --navy:#8FB0FF; --red:#FF6B7F;
+  --gold:#F5C542; --fern:#5BD08F; --fern-bg:#15372A; --red-bg:#3A1A24; --gold-bg:#3A3015;
+}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.5}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.wrap{max-width:980px;margin:0 auto;padding:20px 18px 48px}
+h1,h2,h3{font-family:var(--serif);font-weight:400;margin:0;line-height:1.2}
+.muted{color:var(--muted)}
+.small{font-size:14px}
+
+/* top bar */
+.top{display:flex;flex-wrap:wrap;align-items:center;gap:12px 16px;justify-content:space-between;margin-bottom:18px}
+.brand{display:flex;align-items:baseline;gap:10px}
+.brand h1{font-size:26px;color:var(--navy)}
+.brand span{font-size:14px;color:var(--muted)}
+.top-right{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.accent{display:inline-flex;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:3px}
+.accent button{border:0;background:transparent;padding:6px 12px;border-radius:999px;font-weight:700;font-size:14px;color:var(--muted)}
+.accent button[aria-pressed="true"]{background:var(--navy);color:var(--surface)}
+.chip{display:inline-flex;align-items:center;gap:6px;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:6px 12px;font-size:14px}
+.chip b{font-weight:700}
+.streak{background:var(--gold-bg);border-color:var(--gold)}
+
+/* journey */
+.journey{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:22px 22px 14px;margin-bottom:16px}
+.journey-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:8px 20px}
+.journey-head h2{font-size:30px;color:var(--navy)}
+.journey-head h2 small{font-family:var(--sans);font-size:17px;color:var(--muted)}
+.route{width:100%;height:auto;display:block;margin-top:6px}
+.route .track{fill:none;stroke:var(--line);stroke-width:3;stroke-dasharray:2 9;stroke-linecap:round}
+.route .flown{fill:none;stroke:var(--red);stroke-width:3.5;stroke-linecap:round}
+.route .city{fill:var(--surface);stroke:var(--navy);stroke-width:3}
+.route .city.reached{fill:var(--navy)}
+.route text{font-family:var(--sans);font-size:15px;fill:var(--ink)}
+.route text.sub{font-size:12px;fill:var(--muted)}
+.plane{transition:transform .9s ease}
+@media (prefers-reduced-motion: reduce){.plane{transition:none}}
+
+/* today */
+.today{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:18px}
+.meter{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px 14px}
+.meter-top{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.meter-top b{font-size:15px}
+.meter-top span{font-size:14px;color:var(--muted);white-space:nowrap}
+.bar{height:6px;background:var(--sky);border-radius:6px;margin:8px 0 6px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--navy);border-radius:6px}
+.meter.pass .bar i{background:var(--fern)}
+.meter-bot{display:flex;justify-content:space-between;font-size:13px;color:var(--muted)}
+.meter-bot .ok{color:var(--fern);font-weight:700}
+.meter-bot .no{color:var(--red);font-weight:700}
+.rule{font-size:13px;color:var(--muted);margin:-8px 0 16px}
+
+/* tabs & pills */
+.tabs{display:flex;gap:6px;border-bottom:2px solid var(--line);margin-bottom:14px;overflow-x:auto}
+.tabs button{border:0;background:transparent;padding:10px 14px 12px;font-weight:700;color:var(--muted);border-bottom:3px solid transparent;margin-bottom:-2px;white-space:nowrap}
+.tabs button[aria-selected="true"]{color:var(--navy);border-bottom-color:var(--red)}
+.pills{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-bottom:14px}
+.pills .lbl{font-size:14px;color:var(--muted);margin-right:4px}
+.pill{width:38px;height:38px;border-radius:50%;border:1.5px solid var(--line);background:var(--surface);font-weight:700;font-size:15px;position:relative}
+.pill.review::after{content:"";position:absolute;top:2px;right:2px;width:8px;height:8px;border-radius:50%;background:var(--gold)}
+.pill.pass{background:var(--fern-bg);border-color:var(--fern);color:var(--fern)}
+.pill.fail{background:var(--red-bg);border-color:var(--red);color:var(--red)}
+.pill.cur{outline:3px solid var(--navy);outline-offset:1px}
+.legend{font-size:13px;color:var(--muted);display:flex;gap:14px;flex-wrap:wrap;margin-left:auto}
+.legend i{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--gold);margin-right:5px}
+
+/* panel */
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:20px}
+.panel-head{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;justify-content:space-between;margin-bottom:14px}
+.panel-head h3{font-size:22px}
+.tag{font-size:13px;font-weight:700;padding:3px 10px;border-radius:999px;background:var(--sky);color:var(--navy)}
+.tag.review{background:var(--gold-bg);color:#7A5600}
+:root[data-theme="dark"] .tag.review{color:var(--gold)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .tag.review{color:var(--gold)}}
+.player{display:flex;flex-wrap:wrap;gap:10px;align-items:center;background:var(--sky);border-radius:14px;padding:12px;margin-bottom:14px}
+.play{width:52px;height:52px;border-radius:50%;border:0;background:var(--navy);color:var(--surface);display:grid;place-items:center}
+.play svg{width:22px;height:22px}
+.toggle{display:inline-flex;align-items:center;gap:6px;border:1.5px solid var(--line);background:var(--surface);border-radius:999px;padding:7px 12px;font-size:14px;font-weight:700;color:var(--muted)}
+.toggle[aria-pressed="true"]{border-color:var(--navy);color:var(--navy);background:var(--surface)}
+.toggle .dot{width:9px;height:9px;border-radius:50%;background:var(--line)}
+.toggle[aria-pressed="true"] .dot{background:var(--red)}
+.speed{display:inline-flex;border:1.5px solid var(--line);border-radius:999px;overflow:hidden;background:var(--surface);margin-left:auto}
+.speed button{border:0;background:transparent;padding:7px 11px;font-size:14px;font-weight:700;color:var(--muted)}
+.speed button[aria-pressed="true"]{background:var(--gold);color:#1A1300}
+.status{font-size:14px;color:var(--muted);min-width:120px}
+textarea.answer{width:100%;min-height:96px;border:1.5px solid var(--line);border-radius:12px;padding:12px 14px;background:var(--bg);resize:vertical;font-size:18px}
+textarea.answer:focus{border-color:var(--navy);outline:none}
+.actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px;align-items:center}
+.btn{border:1.5px solid var(--navy);background:var(--navy);color:var(--surface);border-radius:10px;padding:10px 18px;font-weight:700}
+.btn.ghost{background:transparent;color:var(--navy)}
+.btn.red{background:var(--red);border-color:var(--red)}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.hint{font-size:14px;color:var(--muted)}
+.result{margin-top:16px;border-top:1px solid var(--line);padding-top:16px}
+.score{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:10px}
+.score strong{font-family:var(--serif);font-size:38px;font-weight:400}
+.score .ok{color:var(--fern)} .score .no{color:var(--red)}
+.words{font-size:20px;line-height:1.9}
+.w-ok{color:var(--fern);font-weight:700}
+.w-miss{color:var(--red);text-decoration:underline wavy;text-underline-offset:4px}
+.w-extra{color:var(--muted);text-decoration:line-through}
+.target{font-family:var(--serif);font-size:22px;line-height:1.5;margin:6px 0}
+.breakdown{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.breakdown span{font-size:14px;padding:4px 10px;border-radius:8px;background:var(--sky)}
+.countdown{font-size:14px;font-weight:700;color:var(--navy)}
+.hiw-text{font-size:21px;line-height:2.1;margin:4px 0 6px}
+.hw{border:0;background:transparent;padding:2px 3px;border-radius:6px;font-size:inherit;line-height:1.3}
+.hw:hover{background:var(--sky)}
+.hw.sel{background:var(--gold-bg);box-shadow:inset 0 -3px 0 var(--gold)}
+.hw.g-hit{background:var(--fern-bg);color:var(--fern);font-weight:700}
+.hw.g-wrong{background:var(--red-bg);color:var(--red);text-decoration:line-through}
+.hw.g-missed{box-shadow:inset 0 -3px 0 var(--red)}
+.orig{font-size:13px;color:var(--fern);font-weight:700;vertical-align:super;margin-left:2px}
+.rec{display:inline-flex;align-items:center;gap:8px}
+.rec .live{width:12px;height:12px;border-radius:50%;background:var(--red);animation:blink 1s infinite}
+@keyframes blink{50%{opacity:.25}}
+@media (prefers-reduced-motion: reduce){.rec .live{animation:none}}
+.heard{background:var(--bg);border:1.5px dashed var(--line);border-radius:12px;padding:12px 14px;min-height:54px;font-size:18px}
+.done-box{text-align:center;padding:26px 10px}
+.done-box h3{font-size:26px;margin-bottom:12px}
+.vi{font-size:17px;color:var(--muted);margin:8px 0 0;font-style:italic}
+
+/* settings & footer */
+.settings{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center;margin-top:14px;font-size:14px;color:var(--muted)}
+.settings select{border:1.5px solid var(--line);border-radius:8px;padding:5px 8px;background:var(--surface);max-width:320px}
+.settings label{display:inline-flex;align-items:center;gap:6px}
+.tip{font-size:13px;color:var(--muted);margin-top:6px}
+.foot{display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;align-items:center;margin-top:26px;padding-top:16px;border-top:1px solid var(--line)}
+.link{border:0;background:none;color:var(--navy);text-decoration:underline;padding:4px}
+
+/* login */
+.login{max-width:440px;margin:6vh auto 0;background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:28px}
+.login h1{font-size:34px;color:var(--navy);margin-bottom:6px}
+.field{display:block;margin-top:16px}
+.field span{display:block;font-weight:700;font-size:15px;margin-bottom:6px}
+.field input{width:100%;border:1.5px solid var(--line);border-radius:10px;padding:11px 12px;background:var(--bg)}
+.field input:focus{border-color:var(--navy);outline:none}
+.flags{display:flex;gap:6px;margin:14px 0 4px}
+.flags i{height:5px;flex:1;border-radius:3px}
+
+/* dialog */
+dialog{border:1px solid var(--line);border-radius:16px;background:var(--surface);color:var(--ink);max-width:560px;width:calc(100% - 32px);padding:22px}
+dialog::backdrop{background:rgba(10,20,45,.45)}
+dialog textarea{width:100%;min-height:110px;border:1.5px solid var(--line);border-radius:10px;padding:10px;background:var(--bg);font-size:13px;word-break:break-all}
+
+/* teacher */
+.tscroll{overflow-x:auto;border:1px solid var(--line);border-radius:14px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:14px;min-width:880px}
+th,td{padding:10px 12px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+th{font-weight:700;color:var(--muted);background:var(--bg);position:sticky;top:0}
+td .ok{color:var(--fern);font-weight:700} td .no{color:var(--red);font-weight:700}
+details summary{cursor:pointer;color:var(--navy)}
+.hist{font-size:13px;color:var(--muted);margin-top:6px}
+
+@media (max-width:640px){
+  .today{grid-template-columns:1fr}
+  .journey-head h2{font-size:24px}
+  .speed{margin-left:0}
+  .panel{padding:16px}
+  .words,.hiw-text{font-size:19px}
+}
+</style>
+</head>
+<body>
+<div class="wrap" id="app"></div>
+<dialog id="dlg"></dialog>
+<script>const DATA = [{"id":1,"t":"Students have the options to live in college residences or apartments.","h":[["options","choices"],["residences","houses"]],"v":"Sinh viên có thể chọn sống trong ký túc xá của trường hoặc căn hộ."},{"id":2,"t":"Observers waited nervously and with bated breath for the concert.","h":[["nervously","anxiously"],["concert","performance"]],"v":"Khán giả hồi hộp nín thở chờ buổi hòa nhạc."},{"id":3,"t":"The application process may take longer than it's expected.","h":[["process","procedure"],["longer","further"]],"v":"Quá trình nộp hồ sơ có thể mất nhiều thời gian hơn dự kiến."},{"id":4,"t":"Artists, other than politicians, played their own roles as critics of the culture.","h":[["roles","parts"],["critics","judges"]],"v":"Các nghệ sĩ, khác với chính trị gia, tự đóng vai trò là nhà phê bình văn hóa."},{"id":5,"t":"We can't consider any increase in our price at this stage.","h":[["increase","change"],["stage","point"]],"v":"Chúng tôi không thể xem xét việc tăng giá ở giai đoạn này."},{"id":6,"t":"Our professor is hosting the business development conference.","h":[["hosting","holding"],["development","growth"]],"v":"Giáo sư của chúng tôi đang tổ chức hội nghị phát triển kinh doanh."},{"id":7,"t":"Animals raised in captivity behave differently than their wild counterparts.","h":[["captivity","confinement"],["wild","natural"]],"v":"Động vật được nuôi nhốt cư xử khác với đồng loại ngoài tự nhiên."},{"id":8,"t":"He has landed a job in a very prestigious law firm.","h":[["landed","found"],["prestigious","famous"]],"v":"Anh ấy đã có được việc làm ở một công ty luật rất danh tiếng."},{"id":9,"t":"Upgrading the manufacturing system can increase efficiency.","h":[["system","process"],["efficiency","productivity"]],"v":"Nâng cấp hệ thống sản xuất có thể tăng hiệu quả."},{"id":10,"t":"The commissioner will portion the funds among all the sovereignties.","h":[["portion","divide"],["funds","money"]],"v":"Ủy viên sẽ phân chia ngân quỹ cho tất cả các vùng lãnh thổ."},{"id":11,"t":"Please make sure you have collected all the necessary materials.","h":[["collected","gathered"],["necessary","required"]],"v":"Hãy chắc chắn rằng bạn đã thu thập đủ tài liệu cần thiết."},{"id":12,"t":"Organisational failure is considered in various perspectives in academic literature.","h":[["various","several"],["literature","writing"]],"v":"Sự thất bại của tổ chức được xem xét từ nhiều góc độ trong tài liệu học thuật."},{"id":13,"t":"The massive accumulation of data was converted into a communicable argument.","h":[["massive","huge"],["argument","message"]],"v":"Khối dữ liệu khổng lồ đã được chuyển thành một lập luận dễ truyền đạt."},{"id":14,"t":"We have a lecture in the morning on Thursday.","h":[["lecture","seminar"],["morning","evening"]],"v":"Chúng tôi có một bài giảng vào sáng thứ Năm."},{"id":15,"t":"All industries are a system of inputs, processes, outputs and feedback.","h":[["industries","companies"],["feedback","results"]],"v":"Mọi ngành công nghiệp đều là một hệ thống gồm đầu vào, quy trình, đầu ra và phản hồi."},{"id":16,"t":"Parents' talk to children tends to be simplified.","h":[["children","kids"],["simplified","shortened"]],"v":"Cách cha mẹ nói chuyện với con thường được đơn giản hóa."},{"id":17,"t":"Human beings compete with other species for space and resources.","h":[["compete","fight"],["resources","food"]],"v":"Con người cạnh tranh với các loài khác về không gian và tài nguyên."},{"id":18,"t":"The qualification will be assessed using a criterion-referenced approach.","h":[["qualification","degree"],["approach","method"]],"v":"Bằng cấp sẽ được đánh giá theo phương pháp dựa trên tiêu chí."},{"id":19,"t":"Statistic results should be expressed in different ways, depending on circumstances.","h":[["results","findings"],["circumstances","situations"]],"v":"Kết quả thống kê nên được trình bày theo nhiều cách khác nhau, tùy hoàn cảnh."},{"id":20,"t":"The key difference between courses is the kind of assessment.","h":[["difference","distinction"],["assessment","evaluation"]],"v":"Điểm khác biệt chính giữa các khóa học là hình thức đánh giá."},{"id":21,"t":"Participants initially select from a range of foundation subjects.","h":[["initially","first"],["foundation","basic"]],"v":"Ban đầu, người tham gia chọn từ một loạt môn học nền tảng."},{"id":22,"t":"While some people regard it as reforming zeal, others regard it as recklessness.","h":[["zeal","energy"],["recklessness","carelessness"]],"v":"Trong khi một số người coi đó là nhiệt huyết cải cách, người khác lại coi là liều lĩnh."},{"id":23,"t":"The most popular courses still have a few places left.","h":[["popular","famous"],["places","seats"]],"v":"Các khóa học phổ biến nhất vẫn còn vài chỗ trống."},{"id":24,"t":"The faculty staff are very approachable, helpful and extremely friendly.","h":[["approachable","available"],["friendly","kind"]],"v":"Giảng viên của khoa rất dễ gần, nhiệt tình và vô cùng thân thiện."},{"id":25,"t":"The director of the gallery was grateful for the anonymous donation.","h":[["grateful","thankful"],["anonymous","generous"]],"v":"Giám đốc phòng trưng bày rất biết ơn khoản quyên góp ẩn danh."},{"id":26,"t":"The other book isn't thorough, but it's more insightful.","h":[["thorough","detailed"],["insightful","interesting"]],"v":"Cuốn sách kia không kỹ lưỡng, nhưng sâu sắc hơn."},{"id":27,"t":"The dance department stages elaborated performances each semester.","h":[["elaborated","impressive"],["semester","term"]],"v":"Khoa múa dàn dựng các buổi biểu diễn công phu mỗi học kỳ."},{"id":28,"t":"The chemistry building is located near the entrance to the campus.","h":[["located","situated"],["entrance","gate"]],"v":"Tòa nhà hóa học nằm gần lối vào khuôn viên trường."},{"id":29,"t":"The business policy seminar includes an internship with a local firm.","h":[["seminar","course"],["local","small"]],"v":"Hội thảo chính sách kinh doanh bao gồm một kỳ thực tập tại một công ty địa phương."},{"id":30,"t":"Traffic is the main cause of air pollution in many cities.","h":[["main","major"],["cities","countries"]],"v":"Giao thông là nguyên nhân chính gây ô nhiễm không khí ở nhiều thành phố."},{"id":31,"t":"The railway made long-distance travel possible for everyone.","h":[["railway","train"],["possible","easier"]],"v":"Đường sắt đã giúp mọi người có thể đi xa."},{"id":32,"t":"Most scientists believe that climate change threatens lives on the earth.","h":[["believe","think"],["threatens","affects"]],"v":"Hầu hết các nhà khoa học tin rằng biến đổi khí hậu đe dọa sự sống trên Trái Đất."},{"id":33,"t":"The lecture tomorrow will discuss the educational policy in the United States.","h":[["discuss","explore"],["policy","system"]],"v":"Bài giảng ngày mai sẽ bàn về chính sách giáo dục ở Hoa Kỳ."},{"id":34,"t":"The museum is closed on the third Monday of every month.","h":[["closed","shut"],["third","first"]],"v":"Bảo tàng đóng cửa vào thứ Hai tuần thứ ba mỗi tháng."},{"id":35,"t":"The placement test of mathematics and statistics is offered every semester.","h":[["placement","entrance"],["offered","held"]],"v":"Bài kiểm tra xếp lớp môn toán và thống kê được tổ chức mỗi học kỳ."},{"id":36,"t":"There was a prize for the best student of the presentation.","h":[["prize","reward"],["best","top"]],"v":"Có giải thưởng cho sinh viên thuyết trình hay nhất."},{"id":37,"t":"Student representatives will visit classes with voting forms.","h":[["representatives","leaders"],["forms","papers"]],"v":"Đại diện sinh viên sẽ đến các lớp cùng phiếu bầu."},{"id":38,"t":"All of the assignments should be submitted in person to the faculty office.","h":[["submitted","delivered"],["office","building"]],"v":"Tất cả bài tập phải được nộp trực tiếp tại văn phòng khoa."},{"id":39,"t":"Some people argue that education is not that important.","h":[["argue","claim"],["important","essential"]],"v":"Một số người cho rằng giáo dục không quan trọng đến thế."},{"id":40,"t":"There is a clear need for further research in this field.","h":[["clear","strong"],["field","area"]],"v":"Rõ ràng cần có thêm nghiên cứu trong lĩnh vực này."},{"id":41,"t":"You can use a laptop during the lecture.","h":[["laptop","computer"],["lecture","class"]],"v":"Bạn có thể dùng máy tính xách tay trong giờ giảng."},{"id":42,"t":"You will acquire many skills during the academic studies.","h":[["acquire","gain"],["skills","abilities"]],"v":"Bạn sẽ có được nhiều kỹ năng trong quá trình học."},{"id":43,"t":"Sea levels are expected to rise during the next century.","h":[["rise","increase"],["century","decade"]],"v":"Mực nước biển được dự đoán sẽ dâng lên trong thế kỷ tới."},{"id":44,"t":"Remember, the prestigious selection of student membership has strict eligibility criteria.","h":[["prestigious","exclusive"],["strict","specific"]],"v":"Xin nhớ, việc tuyển chọn thành viên danh giá có tiêu chí xét duyệt nghiêm ngặt."},{"id":45,"t":"Students are encouraged to think carefully about their accommodation needs.","h":[["carefully","seriously"],["needs","options"]],"v":"Sinh viên được khuyến khích cân nhắc kỹ nhu cầu chỗ ở của mình."},{"id":46,"t":"Students are encouraged to monitor their own attendance.","h":[["monitor","check"],["attendance","performance"]],"v":"Sinh viên được khuyến khích tự theo dõi việc đi học của mình."},{"id":47,"t":"The ability to work with fellow students cannot be stressed enough.","h":[["fellow","other"],["stressed","emphasised"]],"v":"Khả năng làm việc với bạn học không bao giờ được nhấn mạnh đủ."},{"id":48,"t":"Collaboration between departments is a feature of successful companies.","h":[["departments","divisions"],["successful","large"]],"v":"Sự hợp tác giữa các phòng ban là đặc điểm của các công ty thành công."},{"id":49,"t":"Experts are now able to forecast weather for long periods.","h":[["forecast","predict"],["periods","times"]],"v":"Các chuyên gia giờ đây có thể dự báo thời tiết trong thời gian dài."},{"id":50,"t":"There is a pharmacy on campus near the bookstore.","h":[["pharmacy","clinic"],["bookstore","library"]],"v":"Có một hiệu thuốc trong khuôn viên trường gần nhà sách."},{"id":51,"t":"Those who are considering a career of marketing should attend the talk.","h":[["career","job"],["attend","join"]],"v":"Những ai đang cân nhắc theo nghề marketing nên tham dự buổi nói chuyện."},{"id":52,"t":"Some people believe that education should be free for all.","h":[["believe","think"],["free","cheaper"]],"v":"Một số người tin rằng giáo dục nên miễn phí cho tất cả mọi người."},{"id":53,"t":"One of the election promises is to decrease the income tax.","h":[["promises","pledges"],["decrease","reduce"]],"v":"Một trong những lời hứa tranh cử là giảm thuế thu nhập."},{"id":54,"t":"Building trust is not something that can be achieved overnight.","h":[["trust","confidence"],["overnight","quickly"]],"v":"Xây dựng niềm tin không phải điều có thể đạt được trong một sớm một chiều."},{"id":55,"t":"Education and training provide important skills for the labour force.","h":[["training","practice"],["labour","work"]],"v":"Giáo dục và đào tạo cung cấp kỹ năng quan trọng cho lực lượng lao động."},{"id":56,"t":"The department has a higher-than-normal proportion of postgraduate students.","h":[["proportion","percentage"],["postgraduate","graduate"]],"v":"Khoa có tỷ lệ sinh viên sau đại học cao hơn bình thường."},{"id":57,"t":"Students who are successful have good strategies for learning.","h":[["successful","excellent"],["strategies","methods"]],"v":"Sinh viên thành công có chiến lược học tập tốt."},{"id":58,"t":"Students will focus on reporting news on changing media world.","h":[["reporting","covering"],["changing","modern"]],"v":"Sinh viên sẽ tập trung đưa tin về thế giới truyền thông đang thay đổi."},{"id":59,"t":"Economic development needs to be supported by the government.","h":[["development","growth"],["supported","funded"]],"v":"Phát triển kinh tế cần được chính phủ hỗ trợ."},{"id":60,"t":"Protective clothing must always be worn in the laboratory.","h":[["protective","special"],["laboratory","classroom"]],"v":"Phải luôn mặc đồ bảo hộ trong phòng thí nghiệm."},{"id":61,"t":"Mature students usually adapt to university life extremely well.","h":[["mature","older"],["extremely","really"]],"v":"Sinh viên lớn tuổi thường thích nghi rất tốt với cuộc sống đại học."},{"id":62,"t":"The Industrial Revolution in Europe was driven by steam technology.","h":[["driven","powered"],["technology","engines"]],"v":"Cách mạng Công nghiệp ở châu Âu được thúc đẩy bởi công nghệ hơi nước."},{"id":63,"t":"Several candidates will be qualified as the greatest scientists of all time.","h":[["candidates","people"],["greatest","finest"]],"v":"Một số ứng viên sẽ được công nhận là những nhà khoa học vĩ đại nhất mọi thời đại."},{"id":64,"t":"More research is needed before any definitive conclusion is drawn.","h":[["research","study"],["definitive","final"]],"v":"Cần nghiên cứu thêm trước khi đưa ra bất kỳ kết luận chắc chắn nào."},{"id":65,"t":"The unemployment rate has fallen to its lowest level in years.","h":[["fallen","dropped"],["lowest","smallest"]],"v":"Tỷ lệ thất nghiệp đã giảm xuống mức thấp nhất trong nhiều năm."},{"id":66,"t":"The studies showed the Hong Kong people are the most active in Asia.","h":[["showed","proved"],["active","energetic"]],"v":"Các nghiên cứu cho thấy người Hồng Kông năng động nhất châu Á."},{"id":67,"t":"Farming methods across the world have greatly developed recently.","h":[["methods","techniques"],["greatly","rapidly"]],"v":"Phương pháp canh tác trên thế giới gần đây đã phát triển mạnh."},{"id":68,"t":"Check the website if you are looking for discounted textbooks.","h":[["website","internet"],["discounted","cheaper"]],"v":"Hãy xem trang web nếu bạn đang tìm sách giáo khoa giảm giá."},{"id":69,"t":"Universities need to secure the grants for research subjects.","h":[["secure","obtain"],["grants","funds"]],"v":"Các trường đại học cần giành được tài trợ cho các đề tài nghiên cứu."},{"id":70,"t":"Our courses help to improve critical thinking and independent learning skills.","h":[["improve","develop"],["independent","individual"]],"v":"Các khóa học của chúng tôi giúp cải thiện tư duy phản biện và kỹ năng tự học."},{"id":71,"t":"They developed a unique approach to training their employees.","h":[["unique","special"],["employees","workers"]],"v":"Họ đã phát triển một cách tiếp cận độc đáo để đào tạo nhân viên."},{"id":72,"t":"Without doubt, this theory has a number of limitations.","h":[["theory","idea"],["limitations","weaknesses"]],"v":"Không nghi ngờ gì, lý thuyết này có một số hạn chế."},{"id":73,"t":"The university has invested in new technology designed for learning.","h":[["invested","spent"],["technology","equipment"]],"v":"Trường đại học đã đầu tư vào công nghệ mới dành cho việc học."},{"id":74,"t":"Students are advised that the lecture today has been cancelled.","h":[["advised","informed"],["cancelled","postponed"]],"v":"Sinh viên được thông báo rằng bài giảng hôm nay đã bị hủy."},{"id":75,"t":"The growing population has posed a challenge to many governments.","h":[["growing","rising"],["challenge","problem"]],"v":"Dân số tăng đã đặt ra thách thức cho nhiều chính phủ."},{"id":76,"t":"Take the first step to apply for your university scholarship.","h":[["step","action"],["scholarship","application"]],"v":"Hãy thực hiện bước đầu tiên để xin học bổng đại học."},{"id":77,"t":"The science library is currently located on the ground of the library.","h":[["currently","now"],["located","situated"]],"v":"Thư viện khoa học hiện đang nằm ở tầng trệt của thư viện."},{"id":78,"t":"The library plays an important role in students' lives.","h":[["plays","has"],["important","significant"]],"v":"Thư viện đóng vai trò quan trọng trong đời sống sinh viên."},{"id":79,"t":"The professor took a year off to work on her book.","h":[["year","month"],["book","novel"]],"v":"Giáo sư đã nghỉ một năm để viết sách."},{"id":80,"t":"There is a widely believed perception that engineering is for boys.","h":[["widely","commonly"],["perception","belief"]],"v":"Có một nhận thức phổ biến rằng ngành kỹ thuật là dành cho nam."},{"id":81,"t":"Make sure you choose a course that provides great career opportunities.","h":[["choose","select"],["great","better"]],"v":"Hãy chắc chắn bạn chọn khóa học mang lại nhiều cơ hội nghề nghiệp."},{"id":82,"t":"The printers automatically print both sides of each page.","h":[["automatically","always"],["sides","parts"]],"v":"Máy in tự động in cả hai mặt của mỗi trang."},{"id":83,"t":"Salt is produced from the seawater or extracted from the ground.","h":[["produced","made"],["extracted","taken"]],"v":"Muối được sản xuất từ nước biển hoặc khai thác từ lòng đất."},{"id":84,"t":"The north campus car park could be closed on Sunday.","h":[["campus","side"],["sunday","saturday"]],"v":"Bãi đỗ xe khu phía bắc có thể đóng cửa vào Chủ nhật."},{"id":85,"t":"Sugar is a compound including carbon, hydrogen and oxygen atoms.","h":[["compound","mixture"],["atoms","molecules"]],"v":"Đường là hợp chất gồm các nguyên tử carbon, hydro và oxy."},{"id":86,"t":"Request for late applications will not be accepted under any circumstances.","h":[["applications","submissions"],["accepted","allowed"]],"v":"Đơn nộp muộn sẽ không được chấp nhận trong bất kỳ trường hợp nào."},{"id":87,"t":"The area has a wide diversity of habitats for underwater species.","h":[["diversity","variety"],["species","animals"]],"v":"Khu vực này có môi trường sống đa dạng cho các loài dưới nước."},{"id":88,"t":"Essays and assignments are spread across the academic year.","h":[["spread","scattered"],["year","term"]],"v":"Bài luận và bài tập được rải đều trong năm học."},{"id":89,"t":"Social media is criticised for causing internet addiction.","h":[["criticised","blamed"],["addiction","abuse"]],"v":"Mạng xã hội bị chỉ trích vì gây nghiện internet."},{"id":90,"t":"Criminal charges will be brought against all of the men.","h":[["charges","claims"],["men","people"]],"v":"Tất cả những người đàn ông đó sẽ bị truy tố hình sự."},{"id":91,"t":"The library will be closed for staff training tomorrow morning.","h":[["training","meetings"],["tomorrow","monday"]],"v":"Thư viện sẽ đóng cửa sáng mai để đào tạo nhân viên."},{"id":92,"t":"The student shop sells a range of stationery.","h":[["shop","store"],["stationery","equipment"]],"v":"Cửa hàng sinh viên bán nhiều loại văn phòng phẩm."},{"id":93,"t":"Banks charge interest on the money they lend to customers.","h":[["interest","fees"],["lend","give"]],"v":"Ngân hàng tính lãi trên số tiền họ cho khách hàng vay."},{"id":94,"t":"The teacher training course includes observing the classes.","h":[["observing","watching"],["classes","lessons"]],"v":"Khóa đào tạo giáo viên bao gồm việc dự giờ các lớp học."},{"id":95,"t":"Muscle cells bring parts of the body closer together.","h":[["cells","fibres"],["closer","nearer"]],"v":"Tế bào cơ kéo các bộ phận cơ thể lại gần nhau hơn."},{"id":96,"t":"You need to put these books on the table over there.","h":[["put","place"],["table","desk"]],"v":"Bạn cần đặt những cuốn sách này lên bàn đằng kia."},{"id":97,"t":"Plants are able to continue growing throughout their lives.","h":[["continue","keep"],["lives","lifetime"]],"v":"Thực vật có thể tiếp tục phát triển suốt đời."},{"id":98,"t":"Classical mechanics is considered as a branch of mathematics.","h":[["considered","regarded"],["branch","part"]],"v":"Cơ học cổ điển được coi là một nhánh của toán học."},{"id":99,"t":"The course involves pure and applied mathematics.","h":[["involves","includes"],["applied","practical"]],"v":"Khóa học bao gồm toán thuần túy và toán ứng dụng."},{"id":100,"t":"Designers need to keep up with the social trends.","h":[["keep","catch"],["trends","changes"]],"v":"Nhà thiết kế cần theo kịp các xu hướng xã hội."},{"id":101,"t":"Academic libraries across the world are steadily incorporating social media.","h":[["steadily","rapidly"],["incorporating","adopting"]],"v":"Thư viện học thuật trên toàn thế giới đang dần đưa mạng xã hội vào hoạt động."},{"id":102,"t":"The rising of the sea level indicates climate change.","h":[["sea","ocean"],["indicates","shows"]],"v":"Mực nước biển dâng cho thấy biến đổi khí hậu."},{"id":103,"t":"Calculators allow us to add numbers without making mistakes.","h":[["allow","help"],["mistakes","errors"]],"v":"Máy tính bỏ túi giúp chúng ta cộng số mà không mắc lỗi."},{"id":104,"t":"Marine environments have been destroyed through pollution and unsustainable development.","h":[["destroyed","damaged"],["unsustainable","careless"]],"v":"Môi trường biển đã bị tàn phá bởi ô nhiễm và phát triển thiếu bền vững."},{"id":105,"t":"There is an accounting assessment for finance students.","h":[["accounting","economics"],["finance","business"]],"v":"Có một bài đánh giá kế toán cho sinh viên tài chính."},{"id":106,"t":"Air pollution is a serious problem all over the world.","h":[["serious","major"],["world","country"]],"v":"Ô nhiễm không khí là vấn đề nghiêm trọng trên toàn thế giới."},{"id":107,"t":"Many university lectures can now be reviewed on the Internet.","h":[["reviewed","watched"],["internet","web"]],"v":"Nhiều bài giảng đại học giờ có thể xem lại trên Internet."},{"id":108,"t":"A good abstract highlights the key points of your paper.","h":[["abstract","summary"],["key","main"]],"v":"Một bản tóm tắt tốt làm nổi bật các ý chính của bài báo."},{"id":109,"t":"Farmers need to adapt to the changes in climate.","h":[["adapt","adjust"],["climate","weather"]],"v":"Nông dân cần thích nghi với sự thay đổi của khí hậu."},{"id":110,"t":"The digital camera has some advantages over traditional film.","h":[["advantages","benefits"],["traditional","old"]],"v":"Máy ảnh kỹ thuật số có một số ưu điểm so với phim truyền thống."},{"id":111,"t":"A new collection of articles has just been published.","h":[["collection","series"],["published","released"]],"v":"Một tuyển tập bài báo mới vừa được xuất bản."},{"id":112,"t":"Philosophy uses the logic and reason to analyse human and experience.","h":[["logic","thinking"],["analyse","examine"]],"v":"Triết học dùng logic và lý trí để phân tích con người và trải nghiệm."},{"id":113,"t":"An effective business manager is always open to new ideas.","h":[["effective","successful"],["open","receptive"]],"v":"Một nhà quản lý kinh doanh giỏi luôn cởi mở với ý tưởng mới."},{"id":114,"t":"Neuroscience is a compound of completely separate parts.","h":[["completely","totally"],["separate","different"]],"v":"Khoa học thần kinh là tổng hợp của những phần hoàn toàn riêng biệt."},{"id":115,"t":"Honey can be used as a food and health product.","h":[["food","drink"],["product","remedy"]],"v":"Mật ong có thể dùng làm thực phẩm và sản phẩm sức khỏe."},{"id":116,"t":"The use of mobile phones is not permitted in the library.","h":[["permitted","allowed"],["library","classroom"]],"v":"Không được phép dùng điện thoại di động trong thư viện."},{"id":117,"t":"The content is to define the combination of maths and philosophy.","h":[["define","describe"],["combination","mixture"]],"v":"Nội dung là định nghĩa sự kết hợp giữa toán học và triết học."},{"id":118,"t":"We aim to develop a partnership with the government and financial institutions.","h":[["partnership","relationship"],["financial","banking"]],"v":"Chúng tôi hướng tới xây dựng quan hệ đối tác với chính phủ và các tổ chức tài chính."},{"id":119,"t":"Participating in the class is the centre of the course.","h":[["participating","engaging"],["centre","heart"]],"v":"Tham gia lớp học là trọng tâm của khóa học."},{"id":120,"t":"The college operates a system of continuous assessment.","h":[["operates","runs"],["continuous","constant"]],"v":"Trường áp dụng hệ thống đánh giá liên tục."},{"id":121,"t":"The rising inflation rate indicates a decrease in demand for consumer products.","h":[["decrease","reduction"],["consumer","household"]],"v":"Lạm phát tăng cho thấy nhu cầu hàng tiêu dùng giảm."},{"id":122,"t":"You can find the complaint form on the website.","h":[["complaint","application"],["website","noticeboard"]],"v":"Bạn có thể tìm mẫu đơn khiếu nại trên trang web."},{"id":123,"t":"Globalisation has been an overwhelming urban and urbanisation phenomenon.","h":[["overwhelming","enormous"],["phenomenon","trend"]],"v":"Toàn cầu hóa là một hiện tượng đô thị và đô thị hóa áp đảo."},{"id":124,"t":"The marketing budget has doubled since the beginning of the year.","h":[["budget","spending"],["doubled","tripled"]],"v":"Ngân sách marketing đã tăng gấp đôi kể từ đầu năm."},{"id":125,"t":"Consumer confidence has a direct influence on sales.","h":[["confidence","trust"],["direct","strong"]],"v":"Niềm tin của người tiêu dùng ảnh hưởng trực tiếp đến doanh số."},{"id":126,"t":"There is a great deal of debate on that topic.","h":[["debate","discussion"],["topic","subject"]],"v":"Có rất nhiều tranh luận về chủ đề đó."},{"id":127,"t":"An introduction is an essential element of a presentation.","h":[["essential","important"],["element","part"]],"v":"Phần mở đầu là yếu tố thiết yếu của một bài thuyết trình."},{"id":128,"t":"It is really a comprehensive programme covering both theory and practice.","h":[["comprehensive","complete"],["practice","application"]],"v":"Đây thực sự là một chương trình toàn diện gồm cả lý thuyết lẫn thực hành."},{"id":129,"t":"Students are advised to use multiple methods for this project.","h":[["advised","told"],["multiple","different"]],"v":"Sinh viên được khuyên dùng nhiều phương pháp cho dự án này."},{"id":130,"t":"Affordable housing is an important issue for all members of society.","h":[["affordable","cheap"],["society","community"]],"v":"Nhà ở giá phải chăng là vấn đề quan trọng với mọi thành viên trong xã hội."},{"id":131,"t":"Optional tutorials are offered in the final week of the term.","h":[["optional","extra"],["final","last"]],"v":"Các buổi phụ đạo tự chọn được tổ chức vào tuần cuối học kỳ."},{"id":132,"t":"Remember, the prestigious election of stewardship has strict eligibility criteria.","h":[["election","selection"],["strict","clear"]],"v":"Xin nhớ, việc bầu chọn chức vụ quản lý danh giá có tiêu chí xét duyệt nghiêm ngặt."},{"id":133,"t":"The commissioners will apportion the funds among all the authorities.","h":[["apportion","divide"],["authorities","agencies"]],"v":"Các ủy viên sẽ phân bổ ngân quỹ cho tất cả các cơ quan chức năng."},{"id":134,"t":"Communication skills have become more important in recent years.","h":[["skills","abilities"],["recent","past"]],"v":"Kỹ năng giao tiếp ngày càng quan trọng trong những năm gần đây."},{"id":135,"t":"Tutorials are scheduled in the final week of the term.","h":[["scheduled","planned"],["final","last"]],"v":"Các buổi phụ đạo được lên lịch vào tuần cuối học kỳ."},{"id":136,"t":"Students must wear protective clothing in the medical laboratory.","h":[["protective","special"],["medical","science"]],"v":"Sinh viên phải mặc đồ bảo hộ trong phòng thí nghiệm y khoa."},{"id":137,"t":"Mixture is defined as the compound of chemically separate parts.","h":[["defined","described"],["chemically","physically"]],"v":"Hỗn hợp được định nghĩa là tổ hợp các phần tách biệt về mặt hóa học."},{"id":138,"t":"Educational level is found to be related to social and economic background.","h":[["related","linked"],["background","status"]],"v":"Trình độ học vấn được cho là có liên quan đến hoàn cảnh kinh tế xã hội."},{"id":139,"t":"The course includes a combination of pure and applied mathematics.","h":[["combination","mixture"],["applied","practical"]],"v":"Khóa học kết hợp toán thuần túy và toán ứng dụng."},{"id":140,"t":"Students must wear protective clothing that is provided in the medical laboratory.","h":[["wear","use"],["provided","supplied"]],"v":"Sinh viên phải mặc đồ bảo hộ được cấp trong phòng thí nghiệm y khoa."},{"id":141,"t":"Before attending classes, you must register online or by post.","h":[["register","enrol"],["post","phone"]],"v":"Trước khi tham gia lớp học, bạn phải đăng ký trực tuyến hoặc qua bưu điện."},{"id":142,"t":"The economic strength of the early Roman Republic will be examined.","h":[["strength","power"],["examined","studied"]],"v":"Sức mạnh kinh tế của thời kỳ đầu Cộng hòa La Mã sẽ được xem xét."},{"id":143,"t":"We encourage students to complete their applications before the deadline.","h":[["encourage","urge"],["deadline","holiday"]],"v":"Chúng tôi khuyến khích sinh viên hoàn thành hồ sơ trước hạn chót."},{"id":144,"t":"Photography can be very useful to geographical research.","h":[["useful","helpful"],["research","study"]],"v":"Nhiếp ảnh có thể rất hữu ích cho nghiên cứu địa lý."},{"id":145,"t":"Listening is the key skill needed to succeed in this course.","h":[["key","main"],["succeed","excel"]],"v":"Nghe là kỹ năng then chốt để thành công trong khóa học này."},{"id":146,"t":"Momentum is defined as the combination of mass and velocity.","h":[["defined","described"],["velocity","speed"]],"v":"Động lượng được định nghĩa là tích của khối lượng và vận tốc."},{"id":147,"t":"New materials and techniques are changing the style of modern architecture.","h":[["techniques","methods"],["modern","current"]],"v":"Vật liệu và kỹ thuật mới đang thay đổi phong cách kiến trúc hiện đại."},{"id":148,"t":"You will be able to work in a team.","h":[["able","allowed"],["team","group"]],"v":"Bạn sẽ có thể làm việc theo nhóm."},{"id":149,"t":"Rising sea temperatures are a sign of climate change.","h":[["rising","warming"],["sign","symbol"]],"v":"Nhiệt độ nước biển tăng là dấu hiệu của biến đổi khí hậu."},{"id":150,"t":"A good academic paper should have a clear argument.","h":[["clear","strong"],["argument","structure"]],"v":"Một bài báo học thuật tốt nên có lập luận rõ ràng."},{"id":151,"t":"Studies show there is a positive correlation between the two variables.","h":[["positive","strong"],["variables","factors"]],"v":"Các nghiên cứu cho thấy có tương quan thuận giữa hai biến số."},{"id":152,"t":"Some people believe that education should be free to everyone.","h":[["believe","think"],["everyone","students"]],"v":"Một số người tin rằng giáo dục nên miễn phí cho mọi người."},{"id":153,"t":"Computers used to be larger than they are now.","h":[["larger","bigger"],["now","today"]],"v":"Máy tính trước đây to hơn bây giờ."},{"id":154,"t":"It is important to plan your study time carefully.","h":[["plan","organise"],["carefully","wisely"]],"v":"Lên kế hoạch thời gian học một cách cẩn thận là điều quan trọng."},{"id":155,"t":"He wrote poetry and plays as well as scientific papers.","h":[["poetry","novels"],["scientific","academic"]],"v":"Ông viết thơ và kịch cũng như các bài báo khoa học."},{"id":156,"t":"New media have transcended traditional national boundaries.","h":[["transcended","crossed"],["boundaries","borders"]],"v":"Truyền thông mới đã vượt qua biên giới quốc gia truyền thống."},{"id":157,"t":"Food that contains antibiotics provides few or no nutritional value.","h":[["contains","includes"],["nutritional","real"]],"v":"Thực phẩm chứa kháng sinh cung cấp rất ít hoặc không có giá trị dinh dưỡng."},{"id":158,"t":"Certain scientific principles must be learned verbally or by logical deduction.","h":[["principles","rules"],["verbally","orally"]],"v":"Một số nguyên lý khoa học phải được học qua lời nói hoặc suy luận logic."},{"id":159,"t":"Social psychology is concerned with the understanding of human behaviours.","h":[["concerned","involved"],["behaviours","actions"]],"v":"Tâm lý học xã hội quan tâm đến việc hiểu hành vi con người."},{"id":160,"t":"When the root system of a plant fails, foliage suffers.","h":[["root","stem"],["suffers","dies"]],"v":"Khi bộ rễ của cây hỏng, tán lá sẽ bị ảnh hưởng."},{"id":161,"t":"It may not be possible to solve the problem easily.","h":[["possible","likely"],["solve","fix"]],"v":"Có thể không dễ giải quyết vấn đề này."},{"id":162,"t":"A good architectural structure should be useful, durable and beautiful.","h":[["useful","practical"],["durable","strong"]],"v":"Một công trình kiến trúc tốt phải hữu dụng, bền vững và đẹp."},{"id":163,"t":"Your ideas are discussed and debated in seminars and tutorials.","h":[["discussed","shared"],["seminars","lectures"]],"v":"Ý tưởng của bạn được thảo luận và tranh luận trong các buổi hội thảo và phụ đạo."},{"id":164,"t":"The teacher explains the homework to the students.","h":[["explains","describes"],["homework","assignment"]],"v":"Giáo viên giải thích bài tập về nhà cho học sinh."},{"id":165,"t":"Distance learning allows you to develop a career around your commitments.","h":[["develop","build"],["commitments","responsibilities"]],"v":"Học từ xa cho phép bạn phát triển sự nghiệp xoay quanh các cam kết của mình."},{"id":166,"t":"Our view is that educational reforms have been inadequately implemented.","h":[["reforms","changes"],["inadequately","poorly"]],"v":"Chúng tôi cho rằng các cải cách giáo dục đã được thực hiện chưa đầy đủ."},{"id":167,"t":"Despite their differences, all forms of life share certain characteristics.","h":[["differences","variations"],["share","have"]],"v":"Dù khác biệt, mọi dạng sống đều có chung một số đặc điểm."},{"id":168,"t":"The economic status of the early Roman Republic will be examined.","h":[["status","strength"],["examined","explored"]],"v":"Tình hình kinh tế của thời kỳ đầu Cộng hòa La Mã sẽ được xem xét."},{"id":169,"t":"Please note that the seminar has now been cancelled.","h":[["note","remember"],["cancelled","delayed"]],"v":"Xin lưu ý rằng buổi hội thảo giờ đã bị hủy."},{"id":170,"t":"Lecture outlines are available on the college internal website.","h":[["outlines","notes"],["internal","official"]],"v":"Đề cương bài giảng có trên trang web nội bộ của trường."},{"id":171,"t":"Food containing ample calories provides little or no nutritional value.","h":[["ample","extra"],["calories","sugar"]],"v":"Thực phẩm chứa nhiều calo cung cấp rất ít hoặc không có giá trị dinh dưỡng."},{"id":172,"t":"Many diseases that were once serious have now been eradicated.","h":[["serious","fatal"],["eradicated","removed"]],"v":"Nhiều căn bệnh từng nguy hiểm nay đã được xóa sổ."},{"id":173,"t":"Statistical results should be expressed in different ways, depending on circumstances.","h":[["expressed","presented"],["ways","forms"]],"v":"Kết quả thống kê nên được trình bày theo nhiều cách khác nhau, tùy hoàn cảnh."},{"id":174,"t":"All of your assignments are due by tomorrow.","h":[["assignments","essays"],["tomorrow","friday"]],"v":"Tất cả bài tập của bạn phải nộp trước ngày mai."},{"id":175,"t":"Music has the ability to shape our emotions.","h":[["ability","power"],["shape","change"]],"v":"Âm nhạc có khả năng định hình cảm xúc của chúng ta."},{"id":176,"t":"We cannot consider an increase in our price at this stage.","h":[["consider","accept"],["price","cost"]],"v":"Chúng tôi không thể xem xét việc tăng giá ở giai đoạn này."},{"id":177,"t":"Rising inflation may indicate an increase in the demand for consumer products.","h":[["rising","growing"],["demand","need"]],"v":"Lạm phát tăng có thể cho thấy nhu cầu hàng tiêu dùng tăng."},{"id":178,"t":"Strangely, people are simultaneously impressed by and sceptical about statistics.","h":[["impressed","amazed"],["sceptical","suspicious"]],"v":"Lạ thay, con người vừa ấn tượng vừa hoài nghi về số liệu thống kê."},{"id":179,"t":"Blue whales are the largest animals that have ever lived.","h":[["largest","biggest"],["lived","existed"]],"v":"Cá voi xanh là loài động vật lớn nhất từng tồn tại."},{"id":180,"t":"Population has a sharp rise in the recent twenty years.","h":[["sharp","steady"],["twenty","thirty"]],"v":"Dân số tăng mạnh trong hai mươi năm gần đây."},{"id":181,"t":"When attending a job interview, punctuality is the key.","h":[["attending","having"],["punctuality","confidence"]],"v":"Khi đi phỏng vấn xin việc, đúng giờ là điều then chốt."},{"id":182,"t":"There must be planets in the universe that can support life.","h":[["planets","stars"],["support","sustain"]],"v":"Chắc chắn có những hành tinh trong vũ trụ có thể duy trì sự sống."},{"id":183,"t":"Mathematics provides a foundation for understanding and analysing data.","h":[["foundation","basis"],["analysing","interpreting"]],"v":"Toán học cung cấp nền tảng để hiểu và phân tích dữ liệu."},{"id":184,"t":"The office hours will change next term.","h":[["hours","times"],["term","week"]],"v":"Giờ làm việc của văn phòng sẽ thay đổi vào học kỳ tới."},{"id":185,"t":"We are looking for new ways to engage learners.","h":[["ways","methods"],["engage","motivate"]],"v":"Chúng tôi đang tìm cách mới để thu hút người học."},{"id":186,"t":"There is probably life in the other planets in the universe.","h":[["probably","possibly"],["planets","stars"]],"v":"Có lẽ có sự sống trên các hành tinh khác trong vũ trụ."},{"id":187,"t":"Undoubtedly, this theory has a number of limitations.","h":[["theory","model"],["limitations","problems"]],"v":"Chắc chắn lý thuyết này có một số hạn chế."},{"id":188,"t":"Auditions for the university choir will be held next week.","h":[["auditions","rehearsals"],["week","month"]],"v":"Buổi thử giọng cho dàn hợp xướng của trường sẽ diễn ra vào tuần tới."},{"id":189,"t":"Important details from the argument are missing in the summary.","h":[["details","points"],["missing","absent"]],"v":"Bản tóm tắt thiếu những chi tiết quan trọng của lập luận."},{"id":190,"t":"Dealing with the growing population is a challenge for many governments.","h":[["dealing","coping"],["challenge","problem"]],"v":"Giải quyết vấn đề dân số tăng là thách thức với nhiều chính phủ."},{"id":191,"t":"Football is played throughout all years at the university.","h":[["played","practised"],["years","seasons"]],"v":"Bóng đá được chơi suốt các năm học ở trường đại học."},{"id":192,"t":"Experts are now able to forecast weather over a much longer period.","h":[["forecast","predict"],["longer","wider"]],"v":"Các chuyên gia giờ có thể dự báo thời tiết trong khoảng thời gian dài hơn nhiều."},{"id":193,"t":"Class participation is an important part of your final grade.","h":[["participation","attendance"],["grade","mark"]],"v":"Việc tham gia lớp học là một phần quan trọng trong điểm tổng kết."},{"id":194,"t":"Chemical reactions occur when substances combine or change.","h":[["occur","happen"],["combine","mix"]],"v":"Phản ứng hóa học xảy ra khi các chất kết hợp hoặc biến đổi."},{"id":195,"t":"Course work gives students the chances to thoroughly explore the subject.","h":[["chances","opportunities"],["thoroughly","fully"]],"v":"Bài tập môn học cho sinh viên cơ hội khám phá kỹ lưỡng môn học."},{"id":196,"t":"All experimental procedures are outlined in the laboratory manual.","h":[["procedures","methods"],["outlined","described"]],"v":"Mọi quy trình thí nghiệm đều được trình bày trong sổ tay phòng thí nghiệm."},{"id":197,"t":"You should provide examples to support your ideas and arguments.","h":[["provide","give"],["arguments","opinions"]],"v":"Bạn nên đưa ra ví dụ để minh họa cho ý tưởng và lập luận của mình."},{"id":198,"t":"Meteorology is the detailed study of the Earth's atmosphere.","h":[["detailed","scientific"],["atmosphere","climate"]],"v":"Khí tượng học là ngành nghiên cứu chi tiết về khí quyển Trái Đất."},{"id":199,"t":"You can use your laptops in the lecture.","h":[["laptops","phones"],["lecture","library"]],"v":"Bạn có thể dùng máy tính xách tay trong giờ giảng."},{"id":200,"t":"Muscles bring parts of the body close together.","h":[["muscles","tendons"],["close","tight"]],"v":"Cơ bắp kéo các bộ phận cơ thể lại gần nhau."},{"id":201,"t":"It is quite clear that our facial expressions are different across the world.","h":[["facial","emotional"],["different","similar"]],"v":"Rõ ràng biểu cảm khuôn mặt của chúng ta khác nhau trên khắp thế giới."},{"id":202,"t":"Currently the growth of the economy is unpredictable.","h":[["growth","state"],["unpredictable","uncertain"]],"v":"Hiện nay tăng trưởng kinh tế khó dự đoán."},{"id":203,"t":"Firm conclusions can be established through rigorous experiments.","h":[["firm","clear"],["rigorous","careful"]],"v":"Có thể rút ra kết luận chắc chắn qua các thí nghiệm nghiêm ngặt."},{"id":205,"t":"The article refers to a number of very interesting experiments.","h":[["refers","relates"],["interesting","important"]],"v":"Bài báo đề cập đến một số thí nghiệm rất thú vị."},{"id":206,"t":"Although sustainable development is not easy, it is an unavoidable responsibility.","h":[["sustainable","economic"],["unavoidable","shared"]],"v":"Dù phát triển bền vững không dễ, đó là trách nhiệm không thể né tránh."},{"id":207,"t":"Scientists were unsure when the early men first left Africa.","h":[["unsure","uncertain"],["left","departed"]],"v":"Các nhà khoa học không chắc khi nào người cổ đại lần đầu rời châu Phi."},{"id":208,"t":"Enrolling in a double major can provide you with better career opportunities.","h":[["double","joint"],["better","more"]],"v":"Học song ngành có thể mang lại cho bạn cơ hội nghề nghiệp tốt hơn."},{"id":209,"t":"You need to make sure that all your essays are handed in on time.","h":[["essays","assignments"],["time","schedule"]],"v":"Bạn cần đảm bảo mọi bài luận đều được nộp đúng hạn."},{"id":210,"t":"The commissioner will apportion the funds among other authorities.","h":[["apportion","distribute"],["authorities","departments"]],"v":"Ủy viên sẽ phân bổ ngân quỹ cho các cơ quan khác."},{"id":211,"t":"Having enough sleep has many positive benefits.","h":[["enough","adequate"],["positive","health"]],"v":"Ngủ đủ giấc có nhiều lợi ích tích cực."},{"id":212,"t":"The class is cancelled because the professor is sick.","h":[["cancelled","postponed"],["sick","away"]],"v":"Lớp học bị hủy vì giáo sư bị ốm."},{"id":213,"t":"The university library cafe is on the third floor.","h":[["cafe","shop"],["third","second"]],"v":"Quán cà phê của thư viện trường nằm ở tầng ba."},{"id":214,"t":"Universities offer a range of leisure amenities to their community.","h":[["leisure","sports"],["community","students"]],"v":"Các trường đại học cung cấp nhiều tiện ích giải trí cho cộng đồng."},{"id":215,"t":"Some students were absent due to the train delay.","h":[["absent","late"],["train","bus"]],"v":"Một số sinh viên vắng mặt do tàu bị trễ."},{"id":216,"t":"The academic strength of the early Roman Republic will be examined.","h":[["academic","cultural"],["examined","discussed"]],"v":"Sức mạnh học thuật của thời kỳ đầu Cộng hòa La Mã sẽ được xem xét."},{"id":217,"t":"The university auditorium is around the corner.","h":[["auditorium","theatre"],["corner","block"]],"v":"Hội trường của trường ở ngay góc đường."},{"id":218,"t":"The professor discussed the article yesterday in this class.","h":[["discussed","mentioned"],["yesterday","today"]],"v":"Giáo sư đã thảo luận bài báo hôm qua trong lớp này."},{"id":219,"t":"A university degree is required for entry into various professions.","h":[["required","needed"],["various","many"]],"v":"Cần có bằng đại học để vào nhiều ngành nghề khác nhau."},{"id":220,"t":"Islands in the polar regions are ideal for astrophysicists and meteorologists to conduct field experiments.","h":[["ideal","perfect"],["conduct","perform"]],"v":"Các hòn đảo ở vùng cực là nơi lý tưởng để các nhà vật lý thiên văn và khí tượng học tiến hành thí nghiệm thực địa."},{"id":221,"t":"Her design incorporates the best aspects of architecture.","h":[["incorporates","combines"],["aspects","features"]],"v":"Thiết kế của cô ấy kết hợp những điểm hay nhất của kiến trúc."},{"id":222,"t":"Tact is the knack of making a point without making an enemy.","h":[["knack","art"],["enemy","opponent"]],"v":"Khéo léo là biệt tài nêu quan điểm mà không gây thù chuốc oán."},{"id":223,"t":"It is quite clear that facial expressions appear to be quite similar across different cultures.","h":[["appear","seem"],["cultures","countries"]],"v":"Rõ ràng biểu cảm khuôn mặt có vẻ khá giống nhau giữa các nền văn hóa."},{"id":224,"t":"The professor will have a lecture in the class.","h":[["lecture","talk"],["class","hall"]],"v":"Giáo sư sẽ có một bài giảng trong lớp."},{"id":225,"t":"In this class the teachers will teach you the planning of your essays.","h":[["planning","structure"],["essays","reports"]],"v":"Trong lớp này giáo viên sẽ dạy bạn cách lên dàn ý bài luận."},{"id":226,"t":"You must call your doctor to make an appointment.","h":[["call","contact"],["appointment","arrangement"]],"v":"Bạn phải gọi cho bác sĩ để đặt lịch hẹn."},{"id":227,"t":"Universities should invest in new technologies designed for learning.","h":[["invest","spend"],["designed","made"]],"v":"Các trường đại học nên đầu tư vào công nghệ mới dành cho việc học."},{"id":228,"t":"A lack of formal education will limit your job opportunities.","h":[["lack","shortage"],["limit","affect"]],"v":"Thiếu giáo dục chính quy sẽ hạn chế cơ hội việc làm của bạn."},{"id":229,"t":"Journalists with qualifications often have many different job opportunities.","h":[["qualifications","experience"],["different","new"]],"v":"Nhà báo có bằng cấp thường có nhiều cơ hội việc làm khác nhau."}];</script>
+<script>
+(function(){
+"use strict";
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const MEM = {};
+const LS = {
+  get(k, d){ if (k in MEM) return JSON.parse(MEM[k]); try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch(e){ return d; } },
+  set(k, v){ MEM[k] = JSON.stringify(v); try { localStorage.setItem(k, MEM[k]); } catch(e){} }
+};
+const FRAMED = (() => { try { return window.top !== window.self; } catch(e){ return true; } })();
+const PP = document.permissionsPolicy || document.featurePolicy;
+const MIC_BLOCKED = FRAMED && PP && PP.allowsFeature && !PP.allowsFeature("microphone");
+const openStandalone = () => window.open(location.href, "_blank", "noopener");
+const BY = {}; DATA.forEach(s => BY[s.id] = s);
+const IDS = DATA.map(s => s.id);
+const TOTAL = IDS.length;
+const PARTS = ["wfd","rs","hiw"];
+const PNAME = {wfd:"Write From Dictation", rs:"Repeat Sentence", hiw:"Highlight Incorrect Words"};
+const PSHORT = {wfd:"WFD", rs:"RS", hiw:"HIW"};
+const INTERVALS = [1,2,4,7,14,30];
+const PER_DAY = 10, REVIEW_MAX = 5;
+
+let prefs = Object.assign({accent:"GB", voice:"", speed:1, autoReplay:false, autoNext:true, chunk:true, autoRec:true}, LS.get("wfdj:prefs", {}));
+prefs.accent = "GB";
+function savePrefs(){ LS.set("wfdj:prefs", prefs); }
+let user = LS.get("wfdj:user", null);
+let st = null, tab = "wfd", idx = 0, view = user ? "student" : "login";
+let hiwSel = new Set();
+let nextTimer = null;
+
+/* ---------- dates ---------- */
+const dstr = d => d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
+const today = () => dstr(new Date());
+function addDays(ds, n){ const [y,m,d] = ds.split("-").map(Number); return dstr(new Date(y, m-1, d+n)); }
+const fmtMin = s => { const m = Math.round((s||0)/60); return m < 60 ? m+" phút" : Math.floor(m/60)+" giờ "+(m%60)+" phút"; };
+
+/* ---------- student store ---------- */
+const norm = s => s.trim().replace(/\s+/g," ").toLowerCase();
+const skey = () => "wfdj:s:"+norm(user.name)+"|"+norm(user.cls);
+function load(){ st = LS.get(skey(), null) || {cards:{}, days:{}}; ensureToday(); }
+function save(){ LS.set(skey(), st); }
+function ensureToday(){
+  const d = today();
+  if (st.days[d]) return st.days[d];
+  const due = Object.keys(st.cards).map(Number).filter(id => BY[id] && st.cards[id].due <= d)
+    .sort((a,b) => st.cards[a].due.localeCompare(st.cards[b].due) || st.cards[a].box - st.cards[b].box);
+  const ids = due.slice(0, REVIEW_MAX);
+  const review = ids.length;
+  for (const id of IDS){ if (ids.length >= PER_DAY) break; if (!st.cards[id]) ids.push(id); }
+  if (ids.length < PER_DAY){
+    const rest = due.slice(REVIEW_MAX).concat(Object.keys(st.cards).map(Number).filter(id => BY[id])
+      .sort((a,b) => st.cards[a].due.localeCompare(st.cards[b].due)));
+    for (const id of rest){ if (ids.length >= PER_DAY) break; if (!ids.includes(id)) ids.push(id); }
+  }
+  st.days[d] = {ids, review, wfd:{}, rs:{}, hiw:{}, time:{wfd:0, rs:0, hiw:0}};
+  save();
+  return st.days[d];
+}
+const day = () => ensureToday();
+const isReview = id => { const dd = day(); return dd.ids.indexOf(id) < dd.review; };
+function schedule(id, pct){
+  const c = st.cards[id] || {box:0, seen:0};
+  c.seen++; c.last = pct;
+  c.box = pct >= 80 ? Math.min(c.box+1, INTERVALS.length) : 1;
+  c.due = addDays(today(), INTERVALS[c.box-1]);
+  st.cards[id] = c;
+}
+function partStats(dd, p){
+  const vals = dd.ids.map(id => dd[p][id]).filter(Boolean);
+  const done = vals.length;
+  const avg = done ? Math.round(vals.reduce((a,b) => a + b.pct, 0) / done) : 0;
+  return {done, avg, total: dd.ids.length, pass: done === dd.ids.length && avg >= 80};
+}
+const dayPass = dd => PARTS.every(p => partStats(dd, p).pass);
+function streak(){
+  let n = 0, d = today();
+  if (!(st.days[d] && dayPass(st.days[d]))) d = addDays(d, -1);
+  while (st.days[d] && dayPass(st.days[d])){ n++; d = addDays(d, -1); }
+  return n;
+}
+const covered = () => Object.values(st.cards).filter(c => c.seen > 0).length;
+const mastered = () => Object.values(st.cards).filter(c => c.box >= 3).length;
+function totalTime(){
+  const t = {wfd:0, rs:0, hiw:0};
+  Object.values(st.days).forEach(dd => PARTS.forEach(p => t[p] += (dd.time && dd.time[p]) || 0));
+  return t;
+}
+
+/* ---------- text helpers ---------- */
+const words = s => s.toLowerCase().replace(/[’‘]/g,"'").replace(/[^a-z0-9'\- ]+/g," ").split(/\s+/).map(w => w.replace(/^['-]+|['-]+$/g,"")).filter(Boolean);
+function lcs(a, b){
+  const n = a.length, m = b.length, dp = Array.from({length:n+1}, () => new Array(m+1).fill(0));
+  for (let i = n-1; i >= 0; i--) for (let j = m-1; j >= 0; j--)
+    dp[i][j] = a[i] === b[j] ? dp[i+1][j+1] + 1 : Math.max(dp[i+1][j], dp[i][j+1]);
+  const hitA = new Set(), hitB = new Set(); let i = 0, j = 0;
+  while (i < n && j < m){
+    if (a[i] === b[j]){ hitA.add(i); hitB.add(j); i++; j++; }
+    else if (dp[i+1][j] >= dp[i][j+1]) i++; else j++;
+  }
+  return {len: dp[0][0], hitA, hitB};
+}
+const BREAKS = new Set(["that","which","who","whose","where","when","because","although","while","if","but","in","on","at","for","with","by","from","during","before","after","between","across","without","through","than","depending","around","since","into","over","among","under","throughout"]);
+function chunkText(t){
+  const w = t.split(" ");
+  if (w.length < 8) return t;
+  const out = []; let last = 0, br = 0;
+  for (let i = 0; i < w.length; i++){
+    const lw = w[i].toLowerCase().replace(/[^a-z']/g,"");
+    if (br < 2 && i - last >= 3 && w.length - i >= 3 && BREAKS.has(lw) && !/[,;:]$/.test(w[i-1])){
+      out[out.length-1] += ","; last = i; br++;
+    }
+    out.push(w[i]);
+  }
+  return out.join(" ");
+}
+function hiwBuild(s){
+  const toks = s.t.split(" "), out = toks.slice(), changed = [], orig = {};
+  for (const [o, w] of s.h){
+    const i = out.findIndex((t, k) => !changed.includes(k) && t.replace(/[^A-Za-z'-]/g,"").toLowerCase() === o.toLowerCase());
+    if (i < 0) continue;
+    const core = out[i].replace(/[^A-Za-z'-]/g,"");
+    const rep = /^[A-Z]/.test(core) ? w[0].toUpperCase() + w.slice(1) : w;
+    orig[i] = core; out[i] = out[i].replace(core, rep); changed.push(i);
+  }
+  return {out, changed, orig};
+}
+
+/* ---------- speech synthesis ---------- */
+const TTS = "speechSynthesis" in window;
+let voices = [];
+function rankVoice(v){
+  let s = 0; const n = v.name;
+  if (/natural|neural/i.test(n)) s += 60;
+  if (/online/i.test(n)) s += 30;
+  if (/premium|enhanced|siri/i.test(n)) s += 45;
+  if (/google/i.test(n)) s += 25;
+  if (v.localService === false) s += 5;
+  if (/compact|eloquence|novelty|bad news|bubbles|jester|whisper|zarvox|trinoids|albert|bells|boing|cellos|organ/i.test(n)) s -= 80;
+  return s;
+}
+const langOf = v => (v.lang || "").replace("_","-").toLowerCase();
+function accentVoices(){
+  const want = "en-" + prefs.accent.toLowerCase();
+  return voices.filter(v => langOf(v) === want || (prefs.accent === "GB" && langOf(v) === "en-uk")).sort((a,b) => rankVoice(b) - rankVoice(a));
+}
+function pickVoice(){
+  const vs = accentVoices();
+  return vs.find(v => v.name === prefs.voice) || vs[0] ||
+    voices.filter(v => langOf(v).startsWith("en")).sort((a,b) => rankVoice(b) - rankVoice(a))[0] || null;
+}
+function loadVoices(){ if (!TTS) return; voices = speechSynthesis.getVoices(); const box = $("#voiceBox"); if (box) box.innerHTML = voiceBoxHTML(); }
+if (TTS){ loadVoices(); speechSynthesis.onvoiceschanged = loadVoices; }
+
+const P = {gen:0, timer:null, playing:false, waiting:false};
+function setPlaying(on, msg){
+  P.playing = on;
+  const b = $("#playBtn"); if (b){ b.innerHTML = on ? ICON.stop : ICON.play; b.setAttribute("aria-label", on ? "Dừng" : "Phát câu"); }
+  setStatus(msg !== undefined ? msg : (on ? "Đang đọc…" : ""));
+}
+function setStatus(m){ const s = $("#status"); if (s) s.textContent = m; }
+function stopAudio(){
+  P.gen++; clearTimeout(P.timer); P.waiting = false;
+  if (TTS){ try { speechSynthesis.cancel(); } catch(e){} }
+  setPlaying(false);
+}
+function play(text, onDone){
+  if (!TTS){ setStatus("Trình duyệt không hỗ trợ đọc câu"); return; }
+  stopAudio();
+  const g = P.gen;
+  const run = () => {
+    if (g !== P.gen) return;
+    const u = new SpeechSynthesisUtterance(prefs.chunk ? chunkText(text) : text);
+    const v = pickVoice();
+    if (v){ u.voice = v; u.lang = v.lang; } else u.lang = "en-GB";
+    u.rate = prefs.speed; u.pitch = 1;
+    u.onend = () => {
+      if (g !== P.gen) return;
+      if (prefs.autoReplay && !locked()){
+        setPlaying(false, "Đọc lại sau 2 giây…");
+        P.waiting = true;
+        P.timer = setTimeout(() => { P.waiting = false; run(); }, 2000);
+      } else { setPlaying(false); if (onDone) onDone(); }
+    };
+    u.onerror = () => { if (g === P.gen) setPlaying(false); };
+    setPlaying(true);
+    try { speechSynthesis.resume(); } catch(e){}
+    speechSynthesis.speak(u);
+  };
+  P.timer = setTimeout(run, 80);
+}
+const curId = () => day().ids[idx];
+const locked = () => !!day()[tab][curId()] || !!rec;
+function togglePlay(){
+  if (P.playing || P.waiting){ stopAudio(); return; }
+  playCurrent();
+}
+function playCurrent(){
+  const id = curId();
+  play(BY[id].t, () => { if (tab === "rs" && prefs.autoRec && !MIC_BLOCKED && !day().rs[id]) setTimeout(() => { if (curId() === id && tab === "rs" && !rec) startRec(); }, 500); });
+}
+
+/* ---------- speech recognition ---------- */
+const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+let rec = null, heard = "", recErr = "";
+function startRec(){
+  if (!SR){ recErr = "unsupported"; renderPanel(); return; }
+  stopAudio(); heard = ""; recErr = "";
+  const id = curId();
+  try {
+    rec = new SR();
+    rec.lang = "en-" + prefs.accent; rec.interimResults = true; rec.continuous = false; rec.maxAlternatives = 1;
+    rec.onresult = e => { let t = ""; for (const r of e.results) t += r[0].transcript + " "; heard = t.trim(); const h = $("#heard"); if (h) h.textContent = heard; };
+    rec.onerror = e => { recErr = e.error || "error"; };
+    rec.onend = () => {
+      rec = null;
+      if (curId() !== id || tab !== "rs"){ return; }
+      if (heard) gradeRS(heard); else renderPanel();
+    };
+    rec.start();
+  } catch(e){ rec = null; recErr = (e && e.name) || "error"; }
+  renderPanel();
+}
+function stopRec(){ if (rec){ try { rec.stop(); } catch(e){} } }
+function abortRec(){ if (rec){ const r = rec; rec = null; try { r.abort(); } catch(e){} } }
+
+/* ---------- grading ---------- */
+function afterGrade(){
+  save(); renderSummary(); renderPills(); renderPanel();
+  if (prefs.autoNext) startCountdown();
+}
+function gradeWFD(ans){
+  const id = curId(), tw = words(BY[id].t), aw = words(ans);
+  const bag = {}; aw.forEach(w => bag[w] = (bag[w]||0) + 1);
+  let hit = 0; tw.forEach(w => { if (bag[w] > 0){ bag[w]--; hit++; } });
+  const pct = Math.round(hit / tw.length * 100);
+  const dd = day();
+  if (!dd.wfd[id]) schedule(id, pct);
+  dd.wfd[id] = {pct, ans};
+  stopAudio(); afterGrade();
+}
+function gradeRS(text){
+  const id = curId(), tw = words(BY[id].t), hw = words(text);
+  const r = lcs(tw, hw);
+  const hits = r.len, wrong = hw.length - hits, miss = tw.length - hits;
+  const score = hits - wrong;
+  const pct = Math.max(0, Math.round(score / tw.length * 100));
+  day().rs[id] = {pct, heard:text, hits, wrong, miss, score};
+  afterGrade();
+}
+function gradeHIW(){
+  const id = curId(), b = hiwBuild(BY[id]);
+  const picks = [...hiwSel];
+  const hit = picks.filter(i => b.changed.includes(i)).length, wrong = picks.length - hit;
+  const pct = Math.max(0, Math.round((hit - wrong) / b.changed.length * 100));
+  day().hiw[id] = {pct, picks, hit, wrong, score: hit - wrong, max: b.changed.length};
+  stopAudio(); afterGrade();
+}
+function retry(){
+  const dd = day(); delete dd[tab][curId()]; hiwSel = new Set(); heard = ""; recErr = "";
+  clearCountdown(); save(); renderSummary(); renderPills(); renderPanel();
+}
+
+/* ---------- navigation ---------- */
+function clearCountdown(){ clearInterval(nextTimer); nextTimer = null; }
+function startCountdown(){
+  clearCountdown();
+  let left = 2;
+  const show = () => { const c = $("#countdown"); if (c) c.textContent = left + "s"; };
+  show();
+  nextTimer = setInterval(() => { left--; if (left <= 0){ clearCountdown(); goNext(true); } else show(); }, 1000);
+}
+function goNext(auto){
+  const dd = day(), n = dd.ids.length;
+  let j = -1;
+  for (let k = 1; k <= n; k++){ const t = (idx + k) % n; if (!dd[tab][dd.ids[t]]){ j = t; break; } }
+  if (j < 0){ if (idx < n - 1) j = idx + 1; else { renderPanel(); return; } }
+  select(j, auto);
+}
+function select(i, autoplay){
+  clearCountdown(); stopAudio(); abortRec();
+  idx = i; hiwSel = new Set(); heard = ""; recErr = "";
+  renderPills(); renderPanel();
+  if (autoplay && !day()[tab][curId()]) playCurrent();
+}
+const allDone = () => day().ids.every(id => day()[tab][id]);
+function setTab(t){
+  clearCountdown(); stopAudio(); abortRec();
+  tab = t; hiwSel = new Set(); heard = ""; recErr = "";
+  const dd = day(); const first = dd.ids.findIndex(id => !dd[t][id]);
+  idx = first < 0 ? 0 : first;
+  renderTabs(); renderPills(); renderPanel();
+}
+
+/* ---------- time tracking ---------- */
+let lastAct = Date.now();
+["pointerdown","keydown","touchstart"].forEach(e => addEventListener(e, () => lastAct = Date.now(), {passive:true}));
+setInterval(() => {
+  if (view !== "student" || !st || document.hidden) return;
+  if (Date.now() - lastAct > 90000 && !P.playing && !rec) return;
+  const dd = day(); dd.time[tab] = (dd.time[tab]||0) + 5; save();
+}, 5000);
+setInterval(() => { if (view === "student" && st) renderSummary(); }, 60000);
+
+/* ---------- icons ---------- */
+const ICON = {
+  play:'<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M7 4.5v15l13-7.5z"/></svg>',
+  stop:'<svg viewBox="0 0 24 24" aria-hidden="true"><rect fill="currentColor" x="6" y="6" width="12" height="12" rx="2"/></svg>'
+};
+
+/* ---------- render: login ---------- */
+function renderLogin(){
+  $("#app").innerHTML = `
+  <div class="login">
+    <h1>WFD Journey</h1>
+    <div class="flags" aria-hidden="true"><i style="background:#012169"></i><i style="background:#C8102E"></i><i style="background:#E3A300"></i><i style="background:#1D7A4B"></i></div>
+    <label class="field"><span>Họ tên</span><input id="inName" maxlength="40" value="${esc(user ? user.name : "")}"></label>
+    <label class="field"><span>Mã lớp</span><input id="inCls" maxlength="20" value="${esc(user ? user.cls : "")}"></label>
+    <div class="actions"><button class="btn" type="button" id="goBtn">Vào luyện tập</button><span class="hint" id="loginMsg" style="color:var(--red)"></span></div>
+    <p><button type="button" class="link" id="impLink">Nhập mã chuyển máy</button> <button type="button" class="link" id="toTeacher">Giáo viên</button></p>
+    <div id="impBox" hidden>
+      <textarea class="answer" id="impCode" style="font-size:13px;min-height:70px" placeholder="PTES.…"></textarea>
+      <div class="actions"><button class="btn" type="button" id="impBtn">Nhập</button><span class="hint" id="impMsg" style="color:var(--red)"></span></div>
+    </div>
+  </div>`;
+  $("#impLink").onclick = () => { $("#impBox").hidden = !$("#impBox").hidden; };
+  $("#impBtn").onclick = () => {
+    const m = $("#impCode").value.match(/PTES\.[A-Za-z0-9+/=]+/);
+    if (!m){ $("#impMsg").textContent = "Mã không hợp lệ"; return; }
+    try {
+      const o = JSON.parse(b64d(m[0].slice(5)));
+      user = {name:o.n, cls:o.c}; LS.set("wfdj:user", user);
+      LS.set(skey(), unpackState(o));
+      view = "student"; render();
+    } catch(e){ $("#impMsg").textContent = "Mã không hợp lệ"; }
+  };
+  const go = () => {
+    const name = $("#inName").value.trim(), cls = $("#inCls").value.trim();
+    if (!name || !cls){ $("#loginMsg").textContent = "Nhập tên và mã lớp"; return; }
+    user = {name, cls}; LS.set("wfdj:user", user);
+    view = "student"; render();
+  };
+  $("#goBtn").onclick = go;
+  ["#inName","#inCls"].forEach(s => $(s).onkeydown = e => { if (e.key === "Enter"){ e.preventDefault(); go(); } });
+  $("#toTeacher").onclick = () => { view = "teacher"; render(); };
+}
+
+/* ---------- render: student ---------- */
+function renderStudent(){
+  load();
+  const dd = day(); const first = dd.ids.findIndex(id => !dd[tab][id]);
+  idx = first < 0 ? 0 : first;
+  $("#app").innerHTML = `
+  <header class="top">
+    <div class="brand"><h1>WFD Journey</h1><span>PTE Listening</span></div>
+    <div class="top-right">
+      <span class="chip"><b>${esc(user.name)}</b> <span class="muted">${esc(user.cls)}</span></span>
+      <span class="chip streak" id="streakChip"></span>
+    </div>
+  </header>
+  <section id="sum"></section>
+  <nav class="tabs" id="tabs" role="tablist"></nav>
+  <div class="pills" id="pills"></div>
+  <section class="panel" id="panel" aria-live="polite"></section>
+  <div class="settings">
+    <span id="voiceBox"></span>
+    <label><input type="checkbox" id="chunkChk" ${prefs.chunk?"checked":""}> Ngắt cụm</label>
+  </div>
+  <footer class="foot">
+    <button class="btn ghost" id="reportBtn">Gửi báo cáo</button>
+    <span>
+      <button class="link" id="moveBtn">Chuyển máy</button>
+      <button class="link" id="switchUser">Đổi học viên</button>
+      <button class="link" id="toTeacher2">Giáo viên</button>
+    </span>
+  </footer>`;
+  $("#chunkChk").onchange = e => { prefs.chunk = e.target.checked; savePrefs(); };
+  $("#reportBtn").onclick = openReport;
+  $("#moveBtn").onclick = openMove;
+  $("#switchUser").onclick = () => { stopAudio(); abortRec(); view = "login"; render(); };
+  $("#toTeacher2").onclick = () => { stopAudio(); abortRec(); view = "teacher"; render(); };
+  loadVoices();
+  renderSummary(); renderTabs(); renderPills(); renderPanel();
+}
+function voiceBoxHTML(){
+  if (!TTS) return "Trình duyệt này không đọc được câu. Hãy dùng Chrome hoặc Edge.";
+  const vs = accentVoices();
+  if (!vs.length) return "";
+  const cur = pickVoice();
+  return `<label>Giọng <select id="voiceSel">${vs.map(v => `<option ${cur && v.name===cur.name?"selected":""}>${esc(v.name)}</option>`).join("")}</select></label>`;
+}
+document.addEventListener("change", e => {
+  if (e.target && e.target.id === "voiceSel"){ prefs.voice = e.target.value; savePrefs(); }
+});
+
+function routeSVG(frac){
+  const W = 900, H = 170;
+  const d = "M 60 120 C 260 20, 470 20, 640 95 S 800 140, 840 70";
+  return `<svg class="route" viewBox="0 0 ${W} ${H}" role="img" aria-label="Hành trình London đến Sydney đến Auckland, đã đi ${Math.round(frac*100)}%">
+    <path class="track" id="trk" d="${d}"/>
+    <path class="flown" id="flown" d="${d}"/>
+    <g id="cities"></g>
+    <g class="plane" id="plane"><path d="M16 0 C16 -1.6 14 -2.2 12 -2.2 L4 -2.2 L-3 -13 L-7 -13 L-2 -2.2 L-9 -2.2 L-12 -6 L-15 -6 L-13 0 L-15 6 L-12 6 L-9 2.2 L-2 2.2 L-7 13 L-3 13 L4 2.2 L12 2.2 C14 2.2 16 1.6 16 0 Z" fill="var(--red)" stroke="var(--surface)" stroke-width="1.5"/></g>
+  </svg>`;
+}
+function placeRoute(frac){
+  const trk = $("#trk"); if (!trk) return;
+  const L = trk.getTotalLength();
+  const f = $("#flown"); f.style.strokeDasharray = L; f.style.strokeDashoffset = L * (1 - frac);
+  const stops = [[0,"London","bắt đầu"],[0.5,"Sydney", Math.ceil(TOTAL/2)+" câu"],[1,"Auckland", TOTAL+" câu"]];
+  $("#cities").innerHTML = stops.map(([t,name,sub],k) => {
+    const p = trk.getPointAtLength(L*t);
+    const anchor = k===0 ? "start" : k===2 ? "end" : "middle";
+    const dx = k===0 ? -8 : k===2 ? 8 : 0;
+    const ty = k===2 ? p.y - 24 : p.y + 30;
+    return `<circle class="city ${frac>=t?"reached":""}" cx="${p.x}" cy="${p.y}" r="8"/>
+      <text x="${p.x+dx}" y="${ty}" text-anchor="${anchor}">${name}</text>
+      <text class="sub" x="${p.x+dx}" y="${ty+16}" text-anchor="${anchor}">${sub}</text>`;
+  }).join("");
+  const at = Math.min(L*frac, L-0.01), p = trk.getPointAtLength(at), q = trk.getPointAtLength(Math.min(at+1, L));
+  const ang = Math.atan2(q.y - p.y, q.x - p.x) * 180 / Math.PI;
+  $("#plane").style.transform = `translate(${p.x}px, ${p.y}px) rotate(${ang}deg)`;
+}
+function renderSummary(){
+  const cov = covered(), mas = mastered(), frac = cov / TOTAL, dd = day(), stk = streak();
+  const sc = $("#streakChip"); if (sc) sc.innerHTML = `Chuỗi <b>${stk}</b> ngày`;
+  const tt = totalTime();
+  $("#sum").innerHTML = `
+  <div class="journey">
+    <div class="journey-head">
+      <h2>${cov} <small>/ ${TOTAL} câu WFD đã học</small></h2>
+    </div>
+    ${routeSVG(frac)}
+  </div>
+  <div class="today">
+    ${PARTS.map(p => { const s = partStats(dd, p); return `
+      <div class="meter ${s.pass?"pass":""}">
+        <div class="meter-top"><b>${PNAME[p]}</b><span>${s.done}/${s.total}</span></div>
+        <div class="bar"><i style="width:${s.done/s.total*100}%"></i></div>
+        <div class="meter-bot"><span>${s.done ? `<span class="${s.avg>=80?"ok":"no"}">${s.avg}%</span>` : "–"}</span><span>${fmtMin(dd.time[p])}</span></div>
+      </div>`; }).join("")}
+  </div>
+`;
+  requestAnimationFrame(() => placeRoute(frac));
+}
+function renderTabs(){
+  $("#tabs").innerHTML = PARTS.map(p => `<button role="tab" aria-selected="${tab===p}" data-tab="${p}">${PNAME[p]}</button>`).join("");
+  document.querySelectorAll("[data-tab]").forEach(b => b.onclick = () => setTab(b.dataset.tab));
+}
+function renderPills(){
+  const dd = day();
+  $("#pills").innerHTML = `<span class="lbl">Câu</span>` + dd.ids.map((id, i) => {
+    const r = dd[tab][id];
+    const cls = ["pill", i < dd.review ? "review" : "", r ? (r.pct >= 80 ? "pass" : "fail") : "", i === idx ? "cur" : ""].join(" ");
+    return `<button class="${cls}" data-i="${i}" aria-label="Câu ${i+1}${i<dd.review?", câu ôn":""}${r?", "+r.pct+"%":""}">${i+1}</button>`;
+  }).join("");
+  document.querySelectorAll("[data-i]").forEach(b => b.onclick = () => select(+b.dataset.i, false));
+}
+function playerHTML(){
+  return `<div class="player">
+    <button class="play" id="playBtn" aria-label="Phát câu">${ICON.play}</button>
+    <button class="toggle" id="arBtn" aria-pressed="${prefs.autoReplay}"><span class="dot"></span>Auto Replay</button>
+    <button class="toggle" id="anBtn" aria-pressed="${prefs.autoNext}"><span class="dot"></span>Auto Next</button>
+    ${tab==="rs" ? `<button class="toggle" id="arecBtn" aria-pressed="${prefs.autoRec}"><span class="dot"></span>Tự ghi âm</button>` : ""}
+    <span class="status" id="status"></span>
+    <div class="speed" role="group" aria-label="Tốc độ">
+      ${[[0.85,"0.8x"],[0.92,"0.9x"],[1,"1.0x"]].map(([v,l]) => `<button data-sp="${v}" aria-pressed="${prefs.speed===v}">${l}</button>`).join("")}
+    </div>
+  </div>`;
+}
+function bindPlayer(){
+  $("#playBtn").onclick = togglePlay;
+  $("#arBtn").onclick = e => { prefs.autoReplay = !prefs.autoReplay; savePrefs(); e.currentTarget.setAttribute("aria-pressed", prefs.autoReplay); if (!prefs.autoReplay && P.waiting){ stopAudio(); } };
+  $("#anBtn").onclick = e => { prefs.autoNext = !prefs.autoNext; savePrefs(); e.currentTarget.setAttribute("aria-pressed", prefs.autoNext); if (!prefs.autoNext) { clearCountdown(); const c=$("#countdown"); if (c) c.textContent=""; } };
+  const ar = $("#arecBtn"); if (ar) ar.onclick = e => { prefs.autoRec = !prefs.autoRec; savePrefs(); e.currentTarget.setAttribute("aria-pressed", prefs.autoRec); };
+  document.querySelectorAll("[data-sp]").forEach(b => b.onclick = () => {
+    prefs.speed = +b.dataset.sp; savePrefs();
+    document.querySelectorAll("[data-sp]").forEach(x => x.setAttribute("aria-pressed", +x.dataset.sp === prefs.speed));
+  });
+  if (P.playing) setPlaying(true);
+}
+function headHTML(){
+  const id = curId();
+  return `<div class="panel-head">
+    <h3>${idx+1} / ${day().ids.length}</h3>
+    <span class="tag ${isReview(id)?"review":""}">${isReview(id) ? "Ôn" : "Mới"}</span>
+  </div>`;
+}
+function nextBtnsHTML(){
+  return `<div class="actions">
+    <button class="btn ghost" id="retryBtn">Làm lại</button>
+    <button class="btn" id="nextBtn">Tiếp</button>
+    <span class="countdown" id="countdown"></span>
+  </div>`;
+}
+function bindNext(){
+  const r = $("#retryBtn"); if (r) r.onclick = retry;
+  const n = $("#nextBtn"); if (n) n.onclick = () => goNext(true);
+}
+function doneBanner(){
+  if (!allDone()) return "";
+  const s = partStats(day(), tab);
+  const nxt = PARTS[PARTS.indexOf(tab)+1];
+  return `<div class="done-box">
+    <h3 style="color:${s.avg>=80?"var(--fern)":"var(--red)"}">${PSHORT[tab]}: ${s.avg}%</h3>
+    ${nxt ? `<button class="btn" id="toNextPart">${PNAME[nxt]}</button>` : ""}
+  </div>`;
+}
+function renderPanel(){
+  const id = curId(), s = BY[id], r = day()[tab][id];
+  let body = "";
+  if (tab === "wfd"){
+    if (!r){
+      body = `${playerHTML()}
+        <textarea class="answer" id="ans" placeholder="Nghe và gõ lại câu vào đây…" spellcheck="false" autocomplete="off"></textarea>
+        <div class="actions"><button class="btn" id="subBtn">Chấm điểm</button></div>`;
+    } else {
+      const tw = s.t.split(" "), aw = words(r.ans), bag = {};
+      aw.forEach(w => bag[w] = (bag[w]||0)+1);
+      const shown = tw.map(t => { const k = words(t)[0]; if (k && bag[k] > 0){ bag[k]--; return `<span class="w-ok">${esc(t)}</span>`; } return `<span class="w-miss">${esc(t)}</span>`; }).join(" ");
+      const extra = []; Object.entries(bag).forEach(([w,c]) => { for (let i=0;i<c;i++) extra.push(w); });
+      body = `${playerHTML()}
+        <div class="result">
+          <div class="score"><strong class="${r.pct>=80?"ok":"no"}">${r.pct}%</strong></div>
+          <div class="words">${shown}</div>
+          <p class="vi">${esc(s.v)}</p>
+          ${extra.length ? `<p class="hint"><span class="w-extra">${esc(extra.join(" "))}</span></p>` : ""}
+          ${nextBtnsHTML()}
+        </div>${doneBanner()}`;
+    }
+  } else if (tab === "rs"){
+    if (!r){
+      const blocked = MIC_BLOCKED || (FRAMED && !!recErr && recErr !== "no-speech");
+      const errMsg = blocked ? "Micro bị chặn trong khung này (" + esc(recErr || "policy") + ")."
+        : recErr === "unsupported" ? "Hãy dùng Chrome hoặc Edge."
+        : recErr === "not-allowed" || recErr === "service-not-allowed" ? "Hãy cho phép micro."
+        : recErr === "no-speech" ? "Không nghe thấy tiếng, thử lại."
+        : recErr ? "Lỗi: " + esc(recErr) : "";
+      body = `${playerHTML()}
+        <div class="heard" id="heard">${esc(heard)}</div>
+        ${errMsg ? `<p class="hint" style="color:var(--red)">${errMsg}</p>` : ""}
+        <div class="actions">
+          ${blocked ? `<button class="btn" id="standBtn">Mở trang riêng để ghi âm</button>`
+            : rec ? `<button class="btn red" id="recBtn"><span class="rec"><span class="live"></span>Dừng</span></button>`
+                : `<button class="btn" id="recBtn">Nói</button>`}
+        </div>`;
+    } else {
+      const tw = s.t.split(" "), tws = tw.map(t => words(t)[0] || ""), hw = words(r.heard);
+      const al = lcs(tws, hw);
+      const shown = tw.map((t,i) => `<span class="${al.hitA.has(i)?"w-ok":"w-miss"}">${esc(t)}</span>`).join(" ");
+      const said = hw.map((w,j) => al.hitB.has(j) ? `<span class="w-ok">${esc(w)}</span>` : `<span class="w-extra">${esc(w)}</span>`).join(" ");
+      body = `${playerHTML()}
+        <div class="result">
+          <div class="score"><strong class="${r.pct>=80?"ok":"no"}">${r.pct}%</strong><span class="muted">+${r.hits} −${r.wrong}</span></div>
+          <div class="words">${shown}</div>
+          <div class="words muted">${said}</div>
+          ${nextBtnsHTML()}
+        </div>${doneBanner()}`;
+    }
+  } else {
+    const b = hiwBuild(s);
+    if (!r){
+      body = `${playerHTML()}
+        <div class="hiw-text">${b.out.map((t,i) => `<button class="hw ${hiwSel.has(i)?"sel":""}" data-w="${i}" aria-pressed="${hiwSel.has(i)}">${esc(t)}</button>`).join(" ")}</div>
+        <div class="actions"><button class="btn" id="subBtn">Chấm điểm</button></div>`;
+    } else {
+      const picks = new Set(r.picks);
+      body = `${playerHTML()}
+        <div class="result">
+          <div class="score"><strong class="${r.pct>=80?"ok":"no"}">${r.pct}%</strong><span class="muted">+${r.hit} −${r.wrong}</span></div>
+          <div class="hiw-text">${b.out.map((t,i) => {
+            const ch = b.changed.includes(i), pk = picks.has(i);
+            const cls = ch && pk ? "g-hit" : pk ? "g-wrong" : ch ? "g-missed" : "";
+            return `<span class="hw ${cls}">${esc(t)}${ch ? `<span class="orig">${esc(b.orig[i])}</span>` : ""}</span>`;
+          }).join(" ")}</div>
+          ${nextBtnsHTML()}
+        </div>${doneBanner()}`;
+    }
+  }
+  $("#panel").innerHTML = headHTML() + body;
+  bindPlayer(); bindNext();
+  const tn = $("#toNextPart"); if (tn) tn.onclick = () => setTab(PARTS[PARTS.indexOf(tab)+1]);
+  const sub = $("#subBtn");
+  if (tab === "wfd" && !r){
+    const a = $("#ans");
+    sub.onclick = () => gradeWFD(a.value);
+    a.onkeydown = e => { if (e.key === "Enter" && !e.shiftKey){ e.preventDefault(); gradeWFD(a.value); } };
+  }
+  if (tab === "hiw" && !r){
+    sub.onclick = gradeHIW;
+    document.querySelectorAll("[data-w]").forEach(bt => bt.onclick = () => {
+      const i = +bt.dataset.w; hiwSel.has(i) ? hiwSel.delete(i) : hiwSel.add(i);
+      bt.classList.toggle("sel"); bt.setAttribute("aria-pressed", hiwSel.has(i));
+    });
+  }
+  if (tab === "rs" && !r){
+    const rb = $("#recBtn"); if (rb) rb.onclick = () => rec ? stopRec() : startRec();
+    const sb = $("#standBtn"); if (sb) sb.onclick = openStandalone;
+  }
+}
+
+/* ---------- report ---------- */
+const b64e = s => btoa(unescape(encodeURIComponent(s)));
+const b64d = s => decodeURIComponent(escape(atob(s)));
+function buildReport(){
+  const days = Object.keys(st.days).sort().slice(-30).map(d => {
+    const dd = st.days[d];
+    const o = {d, t: PARTS.map(p => (dd.time && dd.time[p]) || 0)};
+    PARTS.forEach(p => { const s = partStats(dd, p); o[p] = [s.done, s.avg, s.total]; });
+    return o;
+  });
+  return {v:1, n:user.name, c:user.cls, at:Date.now(), tot:TOTAL, cov:covered(), mas:mastered(), stk:streak(), tt:PARTS.map(p => totalTime()[p]), days};
+}
+function openReport(){
+  const code = "PTE1." + b64e(JSON.stringify(buildReport()));
+  const dlg = $("#dlg");
+  dlg.innerHTML = `<h3 style="font-size:22px;margin-bottom:8px">Gửi mã này cho giáo viên</h3>
+    <textarea readonly id="codeBox">${esc(code)}</textarea>
+    <div class="actions"><button class="btn" id="copyBtn">Sao chép</button><button class="btn ghost" id="closeDlg">Đóng</button><span class="hint" id="copyMsg"></span></div>`;
+  dlg.showModal();
+  bindCopy(code);
+}
+
+/* ---------- move device ---------- */
+function packState(){
+  const td = today();
+  const cards = Object.entries(st.cards).map(([id,c]) => [+id, c.box, c.seen, c.due, c.last]);
+  const days = Object.keys(st.days).sort().slice(-60).map(d => {
+    const dd = st.days[d];
+    const part = p => d === td ? dd[p] : Object.fromEntries(Object.entries(dd[p]).map(([k,v]) => [k, {pct:v.pct}]));
+    return [d, dd.ids, dd.review, part("wfd"), part("rs"), part("hiw"), dd.time];
+  });
+  return {v:1, n:user.name, c:user.cls, cards, days};
+}
+function unpackState(o){
+  const s = {cards:{}, days:{}};
+  o.cards.forEach(([id,box,seen,due,last]) => s.cards[id] = {box, seen, due, last});
+  o.days.forEach(([d,ids,review,wfd,rs,hiw,time]) => s.days[d] = {ids, review, wfd, rs, hiw, time: time || {wfd:0,rs:0,hiw:0}});
+  return s;
+}
+function openMove(){
+  const code = "PTES." + b64e(JSON.stringify(packState()));
+  const dlg = $("#dlg");
+  dlg.innerHTML = `<h3 style="font-size:22px;margin-bottom:8px">Mã chuyển máy</h3>
+    <p class="hint">Trên máy mới: Đổi học viên → Nhập mã chuyển máy.</p>
+    <textarea readonly id="codeBox">${esc(code)}</textarea>
+    <div class="actions"><button class="btn" id="copyBtn">Sao chép</button><button class="btn ghost" id="closeDlg">Đóng</button><span class="hint" id="copyMsg"></span></div>`;
+  dlg.showModal();
+  bindCopy(code);
+}
+function bindCopy(code){
+  $("#closeDlg").onclick = () => $("#dlg").close();
+  $("#copyBtn").onclick = async () => {
+    const box = $("#codeBox"); box.focus(); box.select();
+    let ok = false;
+    try { await navigator.clipboard.writeText(code); ok = true; } catch(e){ try { ok = document.execCommand("copy"); } catch(_){} }
+    $("#copyMsg").textContent = ok ? "Đã sao chép" : "Bôi đen rồi Ctrl/Cmd + C";
+  };
+}
+
+/* ---------- teacher ---------- */
+let tFilter = "";
+function renderTeacher(){
+  const T = LS.get("wfdj:teacher", {students:{}});
+  const list = Object.values(T.students);
+  const classes = [...new Set(list.map(s => s.c))].sort();
+  const rows = list.filter(s => !tFilter || s.c === tFilter).sort((a,b) => a.c.localeCompare(b.c) || a.n.localeCompare(b.n));
+  const td = today();
+  const cell = (s, p) => {
+    const last = s.days[s.days.length-1];
+    if (!last || last.d !== td) return `<span class="muted">chưa làm</span>`;
+    const [done, avg, total] = last[p];
+    return `${done}/${total} · <span class="${avg>=80?"ok":"no"}">${done?avg+"%":"–"}</span>`;
+  };
+  $("#app").innerHTML = `
+  <header class="top">
+    <div class="brand"><h1>Học viên</h1></div>
+    <div class="top-right"><button class="btn ghost" id="back">Quay lại</button></div>
+  </header>
+  <section class="panel" style="margin-bottom:16px">
+    <h3 style="font-size:20px;margin-bottom:6px">Dán mã báo cáo</h3>
+    <textarea class="answer" id="codes" style="font-size:14px;min-height:80px" placeholder="PTE1.…"></textarea>
+    <div class="actions"><button class="btn" id="addCodes">Thêm</button><span class="hint" id="addMsg"></span></div>
+  </section>
+  <div class="actions" style="margin-bottom:10px">
+    <label class="hint">Lớp <select id="clsSel" style="border:1.5px solid var(--line);border-radius:8px;padding:5px 8px;background:var(--surface)">
+      <option value="">Tất cả</option>${classes.map(c => `<option ${c===tFilter?"selected":""}>${esc(c)}</option>`).join("")}
+    </select></label>
+    <span class="hint">${rows.length} học viên</span>
+  </div>
+  ${rows.length ? `<div class="tscroll"><table>
+    <thead><tr><th>Học viên</th><th>Câu WFD đã học</th><th>Hôm nay WFD</th><th>Hôm nay RS</th><th>Hôm nay HIW</th><th>Đạt hôm nay</th><th>Tổng thời gian</th><th>Chuỗi</th><th>Cập nhật</th></tr></thead>
+    <tbody>${rows.map(s => {
+      const last = s.days[s.days.length-1];
+      const passToday = last && last.d === td && PARTS.every(p => last[p][0] === last[p][2] && last[p][1] >= 80);
+      const hist = s.days.slice().reverse().slice(0,14).map(d => {
+        const ok = PARTS.every(p => d[p][0] === d[p][2] && d[p][1] >= 80);
+        return `${d.d}: ${PARTS.map((p,i) => `${PSHORT[p]} ${d[p][0]}/${d[p][2]} ${d[p][0]?d[p][1]+"%":"–"} (${fmtMin(d.t[i])})`).join(", ")} ${ok?"✓":""}`;
+      }).join("<br>");
+      return `<tr>
+        <td><b>${esc(s.n)}</b><br><span class="muted">${esc(s.c)}</span></td>
+        <td>${s.cov}/${s.tot}<br><span class="muted">thuộc ${s.mas}</span></td>
+        <td>${cell(s,"wfd")}</td><td>${cell(s,"rs")}</td><td>${cell(s,"hiw")}</td>
+        <td>${last && last.d === td ? (passToday ? '<span class="ok">Đạt</span>' : '<span class="no">Chưa đạt</span>') : '<span class="muted">–</span>'}</td>
+        <td>WFD ${fmtMin(s.tt[0])}<br>RS ${fmtMin(s.tt[1])}<br>HIW ${fmtMin(s.tt[2])}</td>
+        <td>${s.stk} ngày</td>
+        <td>${new Date(s.at).toLocaleString("vi-VN")}<details><summary>Lịch sử</summary><div class="hist">${hist}</div></details><button class="link" data-del="${esc(s.c+"|"+s.n)}">Xoá</button></td>
+      </tr>`; }).join("")}</tbody></table></div>`
+  : ""}`;
+  $("#back").onclick = () => { view = user ? "student" : "login"; render(); };
+  $("#clsSel").onchange = e => { tFilter = e.target.value; renderTeacher(); };
+  $("#addCodes").onclick = () => {
+    const txt = $("#codes").value; const found = txt.match(/PTE1\.[A-Za-z0-9+/=]+/g) || [];
+    let n = 0;
+    for (const c of found){
+      try {
+        const r = JSON.parse(b64d(c.slice(5)));
+        if (!r.n || !r.c || !Array.isArray(r.days)) continue;
+        const k = r.c.trim().toLowerCase() + "|" + r.n.trim().toLowerCase();
+        const old = T.students[k];
+        if (!old || old.at <= r.at){ T.students[k] = r; n++; }
+      } catch(e){}
+    }
+    LS.set("wfdj:teacher", T);
+    renderTeacher();
+    $("#addMsg").textContent = found.length ? `Đã thêm ${n}` : "Mã không hợp lệ";
+  };
+  document.querySelectorAll("[data-del]").forEach(b => b.onclick = () => {
+    const [c, ...rest] = b.dataset.del.split("|"); const k = c.trim().toLowerCase()+"|"+rest.join("|").trim().toLowerCase();
+    if (confirm("Xoá báo cáo này khỏi máy của bạn?")){ delete T.students[k]; LS.set("wfdj:teacher", T); renderTeacher(); }
+  });
+}
+
+/* ---------- boot ---------- */
+function render(){
+  if (view === "login") renderLogin();
+  else if (view === "teacher") renderTeacher();
+  else renderStudent();
+}
+document.addEventListener("visibilitychange", () => { if (document.hidden) stopAudio(); });
+render();
+})();
+</script>
+</body>
+</html>
