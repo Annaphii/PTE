@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html lang="vi">
 <head>
@@ -9,29 +10,18 @@
 <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Young+Serif&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#F3F7FC; --surface:#FFFFFF; --sky:#E3EDF9; --line:#D3DEEC;
-  --ink:#0F2350; --muted:#56668A; --navy:#012169; --red:#C8102E;
-  --gold:#E3A300; --fern:#1D7A4B; --fern-bg:#E4F4EB; --red-bg:#FBE6E9; --gold-bg:#FFF4D6;
+  --bg:#F2F8FE; --surface:#FFFFFF; --sky:#E1F0FC; --line:#CFE3F5;
+  --ink:#1F3550; --muted:#6C85A0; --navy:#4A8FD4; --red:#E0566A;
+  --gold:#F0A93B; --fern:#2E8B62; --fern-bg:#E3F5EC; --red-bg:#FDE7EA; --gold-bg:#FFF1DA;
+  --lilac:#9CC8EE;
   --serif:"Young Serif",Georgia,"Times New Roman",serif;
   --sans:"Atkinson Hyperlegible",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
-  box-sizing:border-box;
+  box-sizing:border-box; color-scheme:light;
   padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
-}
-@media (prefers-color-scheme: dark){
-  :root:not([data-theme="light"]){
-    --bg:#0E1628; --surface:#16213A; --sky:#1C2B4A; --line:#2A3A5E;
-    --ink:#E8EEFA; --muted:#9FB0D0; --navy:#8FB0FF; --red:#FF6B7F;
-    --gold:#F5C542; --fern:#5BD08F; --fern-bg:#15372A; --red-bg:#3A1A24; --gold-bg:#3A3015;
-  }
-}
-:root[data-theme="dark"]{
-  --bg:#0E1628; --surface:#16213A; --sky:#1C2B4A; --line:#2A3A5E;
-  --ink:#E8EEFA; --muted:#9FB0D0; --navy:#8FB0FF; --red:#FF6B7F;
-  --gold:#F5C542; --fern:#5BD08F; --fern-bg:#15372A; --red-bg:#3A1A24; --gold-bg:#3A3015;
 }
 html{scroll-padding-top:env(safe-area-inset-top,0px)}
 *,*::before,*::after{box-sizing:inherit}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.5}
+body{margin:0;background:linear-gradient(180deg,#EAF5FF 0%,#F5FAFF 40%,#EFF8F6 100%) fixed;color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.5}
 button,input,select,textarea{font:inherit;color:inherit}
 button{cursor:pointer}
 :focus-visible{outline:3px solid var(--gold);outline-offset:2px}
@@ -48,23 +38,24 @@ h1,h2,h3{font-family:var(--serif);font-weight:400;margin:0;line-height:1.2}
 .top-right{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
 .accent{display:inline-flex;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:3px}
 .accent button{border:0;background:transparent;padding:6px 12px;border-radius:999px;font-weight:700;font-size:14px;color:var(--muted)}
-.accent button[aria-pressed="true"]{background:var(--navy);color:var(--surface)}
+
 .chip{display:inline-flex;align-items:center;gap:6px;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:6px 12px;font-size:14px}
 .chip b{font-weight:700}
 .streak{background:var(--gold-bg);border-color:var(--gold)}
 
 /* journey */
-.journey{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:22px 22px 14px;margin-bottom:16px}
+.journey{background:linear-gradient(135deg,#FFFFFF 0%,#EEF7FF 60%,#EAF8F5 100%);box-shadow:0 8px 30px rgba(74,143,212,.12);border:1px solid var(--line);border-radius:18px;padding:22px 22px 14px;margin-bottom:16px}
 .journey-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:8px 20px}
 .journey-head h2{font-size:30px;color:var(--navy)}
 .journey-head h2 small{font-family:var(--sans);font-size:17px;color:var(--muted)}
 .route{width:100%;height:auto;display:block;margin-top:6px}
 .route .track{fill:none;stroke:var(--line);stroke-width:3;stroke-dasharray:2 9;stroke-linecap:round}
-.route .flown{fill:none;stroke:var(--red);stroke-width:3.5;stroke-linecap:round}
-.route .city{fill:var(--surface);stroke:var(--navy);stroke-width:3}
-.route .city.reached{fill:var(--navy)}
-.route text{font-family:var(--sans);font-size:15px;fill:var(--ink)}
-.route text.sub{font-size:12px;fill:var(--muted)}
+.route .flown{fill:none;stroke:var(--navy);stroke-width:3.5;stroke-linecap:round}
+.route .city{fill:var(--surface);stroke:var(--lilac);stroke-width:2.5}
+.route .city.reached{fill:var(--navy);stroke:var(--navy)}
+.route .city.next{fill:var(--gold-bg);stroke:var(--gold);stroke-width:3}
+.route text{font-family:var(--sans);font-size:13px;font-weight:700;fill:var(--ink)}
+.route text.sub{font-size:11px;font-weight:400;fill:var(--muted)}
 .plane{transition:transform .9s ease}
 @media (prefers-reduced-motion: reduce){.plane{transition:none}}
 
@@ -105,7 +96,7 @@ h1,h2,h3{font-family:var(--serif);font-weight:400;margin:0;line-height:1.2}
 :root[data-theme="dark"] .tag.review{color:var(--gold)}
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .tag.review{color:var(--gold)}}
 .player{display:flex;flex-wrap:wrap;gap:10px;align-items:center;background:var(--sky);border-radius:14px;padding:12px;margin-bottom:14px}
-.play{width:52px;height:52px;border-radius:50%;border:0;background:var(--navy);color:var(--surface);display:grid;place-items:center}
+.play{width:52px;height:52px;border-radius:50%;border:0;background:var(--navy);color:#fff;box-shadow:0 4px 14px rgba(74,143,212,.35);display:grid;place-items:center}
 .play svg{width:22px;height:22px}
 .toggle{display:inline-flex;align-items:center;gap:6px;border:1.5px solid var(--line);background:var(--surface);border-radius:999px;padding:7px 12px;font-size:14px;font-weight:700;color:var(--muted)}
 .toggle[aria-pressed="true"]{border-color:var(--navy);color:var(--navy);background:var(--surface)}
@@ -113,12 +104,12 @@ h1,h2,h3{font-family:var(--serif);font-weight:400;margin:0;line-height:1.2}
 .toggle[aria-pressed="true"] .dot{background:var(--red)}
 .speed{display:inline-flex;border:1.5px solid var(--line);border-radius:999px;overflow:hidden;background:var(--surface);margin-left:auto}
 .speed button{border:0;background:transparent;padding:7px 11px;font-size:14px;font-weight:700;color:var(--muted)}
-.speed button[aria-pressed="true"]{background:var(--gold);color:#1A1300}
+.speed button[aria-pressed="true"]{background:var(--navy);color:#fff}
 .status{font-size:14px;color:var(--muted);min-width:120px}
 textarea.answer{width:100%;min-height:96px;border:1.5px solid var(--line);border-radius:12px;padding:12px 14px;background:var(--bg);resize:vertical;font-size:18px}
 textarea.answer:focus{border-color:var(--navy);outline:none}
 .actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px;align-items:center}
-.btn{border:1.5px solid var(--navy);background:var(--navy);color:var(--surface);border-radius:10px;padding:10px 18px;font-weight:700}
+.btn{border:1.5px solid var(--navy);background:var(--navy);color:#fff;border-radius:10px;padding:10px 18px;font-weight:700}
 .btn.ghost{background:transparent;color:var(--navy)}
 .btn.red{background:var(--red);border-color:var(--red)}
 .btn:disabled{opacity:.45;cursor:not-allowed}
@@ -219,6 +210,7 @@ const PNAME = {wfd:"Write From Dictation", rs:"Repeat Sentence", hiw:"Highlight 
 const PSHORT = {wfd:"WFD", rs:"RS", hiw:"HIW"};
 const INTERVALS = [1,2,4,7,14,30];
 const PER_DAY = 10, REVIEW_MAX = 5;
+const STOPS = [[20,"Hà Nội"],[40,"Hội An"],[60,"TP.HCM"],[80,"Sydney"],[100,"Melbourne"],[120,"Auckland"],[140,"Queenstown"],[160,"Vancouver"],[180,"Toronto"],[200,"London"],[TOTAL,"Oxford"]];
 
 let prefs = Object.assign({accent:"GB", voice:"", speed:1, autoReplay:false, autoNext:true, chunk:true, autoRec:true}, LS.get("wfdj:prefs", {}));
 prefs.accent = "GB";
@@ -401,17 +393,19 @@ function playCurrent(){
 
 /* ---------- speech recognition ---------- */
 const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-let rec = null, heard = "", recErr = "";
+let rec = null, heard = "", recErr = "", silT = null;
 function startRec(){
   if (!SR){ recErr = "unsupported"; renderPanel(); return; }
   stopAudio(); heard = ""; recErr = "";
   const id = curId();
   try {
     rec = new SR();
-    rec.lang = "en-" + prefs.accent; rec.interimResults = true; rec.continuous = false; rec.maxAlternatives = 1;
-    rec.onresult = e => { let t = ""; for (const r of e.results) t += r[0].transcript + " "; heard = t.trim(); const h = $("#heard"); if (h) h.textContent = heard; };
+    rec.lang = "en-GB"; rec.interimResults = true; rec.continuous = true; rec.maxAlternatives = 1;
+    clearTimeout(silT); silT = setTimeout(stopRec, 8000);
+    rec.onresult = e => { let t = ""; for (const r of e.results) t += r[0].transcript + " "; heard = t.trim(); const h = $("#heard"); if (h) h.textContent = heard; clearTimeout(silT); silT = setTimeout(stopRec, 3000); };
     rec.onerror = e => { recErr = e.error || "error"; };
     rec.onend = () => {
+      clearTimeout(silT);
       rec = null;
       if (curId() !== id || tab !== "rs"){ return; }
       if (heard) gradeRS(heard); else renderPanel();
@@ -443,7 +437,7 @@ function gradeRS(text){
   const r = lcs(tw, hw);
   const hits = r.len, wrong = hw.length - hits, miss = tw.length - hits;
   const score = hits - wrong;
-  const pct = Math.max(0, Math.round(score / tw.length * 100));
+  const pct = Math.min(100, Math.round(Math.max(0, score) / 3 * 100));
   day().rs[id] = {pct, heard:text, hits, wrong, miss, score};
   afterGrade();
 }
@@ -593,28 +587,29 @@ document.addEventListener("change", e => {
 });
 
 function routeSVG(frac){
-  const W = 900, H = 170;
-  const d = "M 60 120 C 260 20, 470 20, 640 95 S 800 140, 840 70";
-  return `<svg class="route" viewBox="0 0 ${W} ${H}" role="img" aria-label="Hành trình London đến Sydney đến Auckland, đã đi ${Math.round(frac*100)}%">
+  const W = 900, H = 210;
+  const d = "M 30 105 C 130 55, 200 55, 300 105 S 470 155, 570 105 S 770 55, 870 105";
+  return `<svg class="route" viewBox="0 0 ${W} ${H}" role="img" aria-label="Hành trình học, đã đi ${Math.round(frac*100)}%">
     <path class="track" id="trk" d="${d}"/>
     <path class="flown" id="flown" d="${d}"/>
     <g id="cities"></g>
-    <g class="plane" id="plane"><path d="M16 0 C16 -1.6 14 -2.2 12 -2.2 L4 -2.2 L-3 -13 L-7 -13 L-2 -2.2 L-9 -2.2 L-12 -6 L-15 -6 L-13 0 L-15 6 L-12 6 L-9 2.2 L-2 2.2 L-7 13 L-3 13 L4 2.2 L12 2.2 C14 2.2 16 1.6 16 0 Z" fill="var(--red)" stroke="var(--surface)" stroke-width="1.5"/></g>
+    <g class="plane" id="plane"><path d="M16 0 C16 -1.6 14 -2.2 12 -2.2 L4 -2.2 L-3 -13 L-7 -13 L-2 -2.2 L-9 -2.2 L-12 -6 L-15 -6 L-13 0 L-15 6 L-12 6 L-9 2.2 L-2 2.2 L-7 13 L-3 13 L4 2.2 L12 2.2 C14 2.2 16 1.6 16 0 Z" fill="var(--navy)" stroke="#fff" stroke-width="1.5"/></g>
   </svg>`;
 }
 function placeRoute(frac){
   const trk = $("#trk"); if (!trk) return;
   const L = trk.getTotalLength();
   const f = $("#flown"); f.style.strokeDasharray = L; f.style.strokeDashoffset = L * (1 - frac);
-  const stops = [[0,"London","bắt đầu"],[0.5,"Sydney", Math.ceil(TOTAL/2)+" câu"],[1,"Auckland", TOTAL+" câu"]];
-  $("#cities").innerHTML = stops.map(([t,name,sub],k) => {
-    const p = trk.getPointAtLength(L*t);
-    const anchor = k===0 ? "start" : k===2 ? "end" : "middle";
-    const dx = k===0 ? -8 : k===2 ? 8 : 0;
-    const ty = k===2 ? p.y - 24 : p.y + 30;
-    return `<circle class="city ${frac>=t?"reached":""}" cx="${p.x}" cy="${p.y}" r="8"/>
-      <text x="${p.x+dx}" y="${ty}" text-anchor="${anchor}">${name}</text>
-      <text class="sub" x="${p.x+dx}" y="${ty+16}" text-anchor="${anchor}">${sub}</text>`;
+  const cov = Math.round(frac*TOTAL);
+  const nextIdx = STOPS.findIndex(x => x[0] > cov);
+  $("#cities").innerHTML = STOPS.map(([n,name],k) => {
+    const p = trk.getPointAtLength(L*Math.min(n/TOTAL,1));
+    const up = k % 2 === 1;
+    const ty = up ? p.y - 30 : p.y + 26;
+    const cls = cov >= n ? "reached" : k === nextIdx ? "next" : "";
+    return `<circle class="city ${cls}" cx="${p.x}" cy="${p.y}" r="${k===nextIdx?8:6.5}"/>
+      <text x="${p.x}" y="${ty}" text-anchor="middle">${name}</text>
+      <text class="sub" x="${p.x}" y="${ty+14}" text-anchor="middle">${n} câu</text>`;
   }).join("");
   const at = Math.min(L*frac, L-0.01), p = trk.getPointAtLength(at), q = trk.getPointAtLength(Math.min(at+1, L));
   const ang = Math.atan2(q.y - p.y, q.x - p.x) * 180 / Math.PI;
@@ -628,6 +623,7 @@ function renderSummary(){
   <div class="journey">
     <div class="journey-head">
       <h2>${cov} <small>/ ${TOTAL} câu WFD đã học</small></h2>
+      ${(() => { const nx = STOPS.find(x => x[0] > cov); return nx ? `<div class="muted small">Tiếp theo: <b style="color:var(--navy)">${nx[1]}</b> · còn ${nx[0]-cov} câu</div>` : `<div class="small"><b style="color:var(--fern)">Đã về đích!</b></div>`; })()}
     </div>
     ${routeSVG(frac)}
   </div>
@@ -750,7 +746,7 @@ function renderPanel(){
       const said = hw.map((w,j) => al.hitB.has(j) ? `<span class="w-ok">${esc(w)}</span>` : `<span class="w-extra">${esc(w)}</span>`).join(" ");
       body = `${playerHTML()}
         <div class="result">
-          <div class="score"><strong class="${r.pct>=80?"ok":"no"}">${r.pct}%</strong><span class="muted">+${r.hits} −${r.wrong}</span></div>
+          <div class="score"><strong class="${r.score>=3?"ok":"no"}">${r.score>=3?"Đạt":"Chưa đạt"}</strong><span class="muted">${r.score}/3 điểm · +${r.hits} −${r.wrong}</span></div>
           <div class="words">${shown}</div>
           <div class="words muted">${said}</div>
           ${nextBtnsHTML()}
